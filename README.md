@@ -7,5 +7,5 @@
 - 吴宣勇 仓库
 - 牛豪康 仓库
 - 晁荣志 仓库
-- 蔡龙祥 仓库
+- [蔡龙祥](https://github.com/shoggothforever) [仓库](https://github.com/shoggothforever/simple-douyin)
 - 张孟 仓库
