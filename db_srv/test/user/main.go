@@ -14,7 +14,21 @@ var userClient proto.UserClient
 var conn *grpc.ClientConn
 
 func Init() {
-	var err error
+	// 开启服务端
+	server := grpc.NewServer()
+	proto.RegisterUserServer(server, &handler.Server{})
+	lis, err := net.Listen("tcp", fmt.Sprintf("127.0.0.1:50051"))
+	if err != nil {
+		panic("failed to listen:" + err.Error())
+	}
+	go func() {
+		err = server.Serve(lis)
+		if err != nil {
+			panic("failed to start grpc:" + err.Error())
+		}
+	}()
+
+	// 建立客户端
 	conn, err = grpc.Dial("127.0.0.1:50051", grpc.WithInsecure())
 	if err != nil {
 		panic(err)
@@ -38,18 +52,6 @@ func TestCreateUser() {
 func main() {
 	initialize.InitConfig()
 	initialize.InitDB()
-	server := grpc.NewServer()
-	proto.RegisterUserServer(server, &handler.Server{})
-	lis, err := net.Listen("tcp", fmt.Sprintf("127.0.0.1:50051"))
-	if err != nil {
-		panic("failed to listen:" + err.Error())
-	}
-	go func() {
-		err = server.Serve(lis)
-		if err != nil {
-			panic("failed to start grpc:" + err.Error())
-		}
-	}()
 	Init()
 	TestCreateUser()
 }

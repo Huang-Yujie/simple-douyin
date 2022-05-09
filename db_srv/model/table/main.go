@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	db,err := gorm.Open(mysql.Open("root:nhk19980516@(121.41.112.176:13306)/douyin?charset=utf8mb4&parseTime=True&loc=Local"))
+	db,err := gorm.Open(mysql.Open("xxx:xxx@(xxx)/xxx?charset=utf8mb4&parseTime=True&loc=Local"))
 	if err != nil {
 		panic(err)
 	}
