@@ -1,0 +1,6 @@
+host: '121.41.112.176'
+port: 13306
+db: 'douyin'
+user: 'root'
+password: 'nhk19980516'
+

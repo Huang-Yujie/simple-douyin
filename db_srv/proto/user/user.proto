@@ -1,0 +1,76 @@
+syntax="proto3";
+
+
+option go_package="./;proto";
+
+service User {
+    rpc CheckPassword(CheckPasswordReq) returns (CheckPasswordResp);
+    rpc CreateUser(CreateUserReq) returns (CreateUserResp);
+    rpc UpdateUser(UpdateUserReq) returns (UpdateUserResp);
+    rpc GetUserById(UserIdReq) returns (UserInfoResq);
+    rpc GetUserByMobile(UserMobileReq) returns (UserInfoResq);
+}
+
+// 密码校验接口请求
+message CheckPasswordReq {
+    string password = 1;
+    string encryptedPassword = 2;
+}
+
+// 密码校验接口响应
+message CheckPasswordResp {
+    bool success = 1;
+}
+
+// 用户创建接口请求
+message CreateUserReq {
+    string mobile = 1;
+    string password = 2;
+}
+
+// 用户创建接口响应
+message CreateUserResp {
+    int32 id = 1;
+    string password = 2;
+    string mobile = 3;
+    string nickname = 4;
+    int32 gender = 5;
+    string profile = 6;
+}
+
+// 用户更新接口请求
+message UpdateUserReq {
+    int32 id = 1;
+    string mobile = 2;
+    string nickname = 3;
+    string password = 4;
+    string gender = 5;
+    string picture = 6;
+    string profile = 7;
+}
+
+// 用户更新接口响应
+message UpdateUserResp {
+    bool success = 1;
+}
+
+// 用户Id请求
+message UserIdReq {
+    int32 id = 1;
+}
+
+// 用户mobile请求
+message UserMobileReq {
+    string mobile = 1;
+}
+
+// 用户信息响应
+message UserInfoResq {
+    int32 id = 1;
+    string mobile = 2;
+    string nickname = 3;
+    string password = 4;
+    string gender = 5;
+    string picture = 6;
+    string profile = 7;
+}
