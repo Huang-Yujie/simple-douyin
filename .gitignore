@@ -17,7 +17,7 @@
 
 .DS_Store
 
-*.yaml
+db_srv/*.yaml
 
 *.mod
 
