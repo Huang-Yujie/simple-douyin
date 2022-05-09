@@ -17,7 +17,7 @@
 
 .DS_Store
 
-./db_srv/config-debug.yaml
+*.yaml
 
 *.mod
 
