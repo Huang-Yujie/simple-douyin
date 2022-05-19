@@ -1,0 +1,146 @@
+syntax = "proto3";
+package video;
+option go_package = "videoproto";
+import public "google/protobuf/timestamp.proto";
+
+service VideoService {
+    rpc CreateVideo(CreateVideoReq) returns(CreateVideoResp);                           // 上传视频
+    rpc GetVideosByUserId(GetVideosByUserIdReq) returns(GetVideosByUserIdResp);         // 查询某人视频列表
+    rpc GetVideosByTime(GetVideosByTimeReq) returns(GetVideosByTimeResp);               // 按时间戳查询视频
+    rpc LikeVideo(LikeVideoReq) returns (LikeVideoResp);                                // 点赞视频
+    rpc UnLikeVideo(UnLikeVideoReq) returns (UnLikeVideoResp);                          // 取消点赞视频
+    rpc GetWhetherBeLiked(GetWhetherBeLikedReq) returns(GetWhetherBeLikedResp);         // 查询用户是否点赞了视频
+    rpc GetLikesCount(GetLikesCountReq) returns(GetLikesCountResp);                     // 查询视频的点赞数量
+    rpc CreateComment(CreateCommentReq) returns(CreateCommentResp);                     // 评论
+    rpc DeleteComment(DeleteCommentReq) returns(DeleteCommentResp);                     // 删除评论
+    rpc GetComments(GetCommentsReq) returns(GetCommentsResp);                           // 查询视频的评论列表
+    rpc GetCommentsCount(GetCommentsCountReq) returns(GetCommentsCountResp);            // 查询视频的评论数量
+}
+
+message BaseResp {
+    int64 status_code = 1;
+    string status_msg = 2;
+}
+
+message VideoBaseInfo {
+    int64 user_id = 1;
+    string play_addr = 2;
+    string cover_addr = 3;
+    string title = 4;
+}
+
+message VideoInfo {
+    int64 video_id = 1;
+    VideoBaseInfo video_base_info = 2;
+}
+
+message CommentInfo {
+    int64 comment_id = 1;
+    int64 user_id = 2;
+    int64 video_id = 3;
+    string content = 4;
+    google.protobuf.Timestamp create_time = 5;
+}
+
+message CreateVideoReq {
+    VideoBaseInfo video_base_info = 1;
+}
+
+message CreateVideoResp {
+    BaseResp base_resp = 1;
+    VideoInfo video_info = 2;
+}
+
+message GetVideosByUserIdReq {
+    int64 user_id = 1;
+}
+
+message GetVideosByUserIdResp {
+    BaseResp base_resp = 1;
+    repeated VideoInfo video_infos = 2;
+}
+
+message GetVideosByTimeReq {
+    google.protobuf.Timestamp time = 1;
+    int64 count = 2;
+}
+
+message GetVideosByTimeResp {
+    BaseResp base_resp = 1;
+    repeated VideoInfo video_infos = 2;
+    google.protobuf.Timestamp time = 3;
+}
+
+message LikeVideoReq {
+    int64 user_id = 1;
+    int64 video_id = 2;
+}
+
+message LikeVideoResp {
+    BaseResp base_resp = 1;
+}
+
+message UnLikeVideoReq {
+    int64 user_id = 1;
+    int64 video_id = 2;
+}
+
+message UnLikeVideoResp {
+    BaseResp base_resp = 1;
+}
+
+message GetWhetherBeLikedReq {
+    int64 user_id = 1;
+    int64 video_id = 2;
+}
+
+message GetWhetherBeLikedResp {
+    BaseResp base_resp = 1;
+    bool is_liked = 2;
+}
+
+message GetLikesCountReq {
+    int64 user_id = 1;
+}
+
+message GetLikesCountResp {
+    BaseResp base_resp = 1;
+    int64 count = 2;
+}
+
+message CreateCommentReq {
+    int64 user_id = 1;
+    int64 video_id = 2;
+    string content = 3;
+}
+
+message CreateCommentResp {
+    BaseResp base_resp = 1;
+    CommentInfo comment_info = 2;
+}
+
+message DeleteCommentReq {
+    int64 comment_id = 1;
+}
+
+message DeleteCommentResp {
+    BaseResp base_resp = 1;
+}
+
+message GetCommentsReq {
+    int64 video_id = 1;
+}
+
+message GetCommentsResp {
+    BaseResp base_resp = 1;
+    repeated CommentInfo comment_infos = 2;
+}
+
+message GetCommentsCountReq {
+    int64 user_id = 1;
+}
+
+message GetCommentsCountResp {
+    BaseResp base_resp = 1;
+    int64 count = 2;
+}
