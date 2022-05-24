@@ -38,18 +38,6 @@ func (s *UserServiceImpl) UnFollowUser(ctx context.Context, req *userproto.UnFol
 	return
 }
 
-// GetUserRelations implements the UserServiceImpl interface.
-func (s *UserServiceImpl) GetUserRelations(ctx context.Context, req *userproto.GetUserRelationsReq) (resp *userproto.GetUserRelationsResp, err error) {
-	// TODO: Your code here...
-	return
-}
-
-// GetWhetherBeFollowed implements the UserServiceImpl interface.
-func (s *UserServiceImpl) GetWhetherBeFollowed(ctx context.Context, req *userproto.GetWhetherBeFollowedReq) (resp *userproto.GetWhetherBeFollowedResp, err error) {
-	// TODO: Your code here...
-	return
-}
-
 // GetFollowList implements the UserServiceImpl interface.
 func (s *UserServiceImpl) GetFollowList(ctx context.Context, req *userproto.GetFollowListReq) (resp *userproto.GetFollowListResp, err error) {
 	// TODO: Your code here...

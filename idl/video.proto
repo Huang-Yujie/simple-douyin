@@ -1,7 +1,6 @@
 syntax = "proto3";
 package video;
 option go_package = "videoproto";
-import public "google/protobuf/timestamp.proto";
 
 service VideoService {
     rpc CreateVideo(CreateVideoReq) returns(CreateVideoResp);                           // 上传视频
@@ -9,12 +8,9 @@ service VideoService {
     rpc GetVideosByTime(GetVideosByTimeReq) returns(GetVideosByTimeResp);               // 按时间戳查询视频
     rpc LikeVideo(LikeVideoReq) returns (LikeVideoResp);                                // 点赞视频
     rpc UnLikeVideo(UnLikeVideoReq) returns (UnLikeVideoResp);                          // 取消点赞视频
-    rpc GetWhetherBeLiked(GetWhetherBeLikedReq) returns(GetWhetherBeLikedResp);         // 查询用户是否点赞了视频
-    rpc GetLikesCount(GetLikesCountReq) returns(GetLikesCountResp);                     // 查询视频的点赞数量
     rpc CreateComment(CreateCommentReq) returns(CreateCommentResp);                     // 评论
     rpc DeleteComment(DeleteCommentReq) returns(DeleteCommentResp);                     // 删除评论
     rpc GetComments(GetCommentsReq) returns(GetCommentsResp);                           // 查询视频的评论列表
-    rpc GetCommentsCount(GetCommentsCountReq) returns(GetCommentsCountResp);            // 查询视频的评论数量
 }
 
 message BaseResp {
@@ -32,14 +28,16 @@ message VideoBaseInfo {
 message VideoInfo {
     int64 video_id = 1;
     VideoBaseInfo video_base_info = 2;
+    int64 like_count = 3;
+    int64 comment_count = 4;
+    bool is_favorite = 5;
 }
 
 message CommentInfo {
     int64 comment_id = 1;
     int64 user_id = 2;
-    int64 video_id = 3;
-    string content = 4;
-    google.protobuf.Timestamp create_time = 5;
+    string content = 3;
+    string create_date = 4;
 }
 
 message CreateVideoReq {
@@ -48,11 +46,11 @@ message CreateVideoReq {
 
 message CreateVideoResp {
     BaseResp base_resp = 1;
-    VideoInfo video_info = 2;
 }
 
 message GetVideosByUserIdReq {
-    int64 user_id = 1;
+    int64 app_user_id = 1;
+    int64 user_id = 2;
 }
 
 message GetVideosByUserIdResp {
@@ -61,14 +59,15 @@ message GetVideosByUserIdResp {
 }
 
 message GetVideosByTimeReq {
-    google.protobuf.Timestamp time = 1;
-    int64 count = 2;
+    int64 app_user_id = 1;
+    int64 latest_time = 2;
+    int64 count = 3;
 }
 
 message GetVideosByTimeResp {
     BaseResp base_resp = 1;
     repeated VideoInfo video_infos = 2;
-    google.protobuf.Timestamp time = 3;
+    int64 next_time = 3;
 }
 
 message LikeVideoReq {
@@ -87,25 +86,6 @@ message UnLikeVideoReq {
 
 message UnLikeVideoResp {
     BaseResp base_resp = 1;
-}
-
-message GetWhetherBeLikedReq {
-    int64 user_id = 1;
-    int64 video_id = 2;
-}
-
-message GetWhetherBeLikedResp {
-    BaseResp base_resp = 1;
-    bool is_liked = 2;
-}
-
-message GetLikesCountReq {
-    int64 user_id = 1;
-}
-
-message GetLikesCountResp {
-    BaseResp base_resp = 1;
-    int64 count = 2;
 }
 
 message CreateCommentReq {
@@ -128,19 +108,11 @@ message DeleteCommentResp {
 }
 
 message GetCommentsReq {
-    int64 video_id = 1;
+    int64 app_user_id = 1;
+    int64 video_id = 2;
 }
 
 message GetCommentsResp {
     BaseResp base_resp = 1;
     repeated CommentInfo comment_infos = 2;
-}
-
-message GetCommentsCountReq {
-    int64 user_id = 1;
-}
-
-message GetCommentsCountResp {
-    BaseResp base_resp = 1;
-    int64 count = 2;
 }

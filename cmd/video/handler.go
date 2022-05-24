@@ -38,18 +38,6 @@ func (s *VideoServiceImpl) UnLikeVideo(ctx context.Context, req *videoproto.UnLi
 	return
 }
 
-// GetWhetherBeLiked implements the VideoServiceImpl interface.
-func (s *VideoServiceImpl) GetWhetherBeLiked(ctx context.Context, req *videoproto.GetWhetherBeLikedReq) (resp *videoproto.GetWhetherBeLikedResp, err error) {
-	// TODO: Your code here...
-	return
-}
-
-// GetLikesCount implements the VideoServiceImpl interface.
-func (s *VideoServiceImpl) GetLikesCount(ctx context.Context, req *videoproto.GetLikesCountReq) (resp *videoproto.GetLikesCountResp, err error) {
-	// TODO: Your code here...
-	return
-}
-
 // CreateComment implements the VideoServiceImpl interface.
 func (s *VideoServiceImpl) CreateComment(ctx context.Context, req *videoproto.CreateCommentReq) (resp *videoproto.CreateCommentResp, err error) {
 	// TODO: Your code here...
@@ -64,12 +52,6 @@ func (s *VideoServiceImpl) DeleteComment(ctx context.Context, req *videoproto.De
 
 // GetComments implements the VideoServiceImpl interface.
 func (s *VideoServiceImpl) GetComments(ctx context.Context, req *videoproto.GetCommentsReq) (resp *videoproto.GetCommentsResp, err error) {
-	// TODO: Your code here...
-	return
-}
-
-// GetCommentsCount implements the VideoServiceImpl interface.
-func (s *VideoServiceImpl) GetCommentsCount(ctx context.Context, req *videoproto.GetCommentsCountReq) (resp *videoproto.GetCommentsCountResp, err error) {
 	// TODO: Your code here...
 	return
 }

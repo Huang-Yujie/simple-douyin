@@ -8,8 +8,6 @@ service UserService {
     rpc CheckUser(CheckUserReq) returns (CheckUserResp);                                    // 校验用户名密码（即登录）
     rpc FollowUser(FollowUserReq) returns (FollowUserResp);                                 // 关注
     rpc UnFollowUser(UnFollowUserReq) returns (UnFollowUserResp);                           // 取关
-    rpc GetUserRelations(GetUserRelationsReq) returns (GetUserRelationsResp);               // 查询用户关注数和粉丝数
-    rpc GetWhetherBeFollowed(GetWhetherBeFollowedReq) returns (GetWhetherBeFollowedResp);   // 查询用户A是否关注用户B
     rpc GetFollowList(GetFollowListReq) returns (GetFollowListResp);                        // 查询关注列表
     rpc GetFanList(GetFanListReq) returns (GetFanListResp);                                 // 查询粉丝列表
 }
@@ -20,7 +18,10 @@ message BaseResp {
 }
 message UserInfo {
     int64 user_id = 1;
-    UserAccount user_account = 2;
+    int64 username = 2;
+    int64 follow_count = 3;
+    int64 follower_count = 4;
+    bool is_follow = 5; // 默认false
 }
 
 message UserAccount {
@@ -34,11 +35,12 @@ message CreateUserReq {
 
 message CreateUserResp {
     BaseResp base_resp = 1;
-    UserInfo user_info = 2;
+    int64 user_id = 2;
 }
 
 message GetUserReq {
-    int64 user_id = 1;
+    int64 app_user_id = 1;
+    int64 user_id = 2;
 }
 
 message GetUserResp {
@@ -52,7 +54,7 @@ message CheckUserReq {
 
 message CheckUserResp {
     BaseResp base_resp = 1;
-    UserInfo user_info = 2;
+    int64 user_id = 2;
 }
 
 message FollowUserReq {
@@ -73,40 +75,22 @@ message UnFollowUserResp {
     BaseResp base_resp = 1;
 }
 
-message GetUserRelationsReq {
-    int64 user_id = 1;
-}
-
-message GetUserRelationsResp {
-    BaseResp base_resp = 1;
-    int64 follow_count = 2;
-    int64 fan_count = 3;
-}
-
-message GetWhetherBeFollowedReq {
-    int64 fan_user_id = 1;
-    int64 followed_user_id = 2;
-}
-
-message GetWhetherBeFollowedResp {
-    BaseResp base_resp = 1;
-    bool is_followed = 2;
-}
-
 message GetFollowListReq {
-    int64 user_id = 1;
+    int64 app_user_id = 1;
+    int64 user_id = 2;
 }
 
 message GetFollowListResp {
     BaseResp base_resp = 1;
-    repeated int64 user_ids = 2;
+    repeated UserInfo user_infos = 2;
 }
 
 message GetFanListReq {
-    int64 user_id = 1;
+    int64 app_user_id = 1;
+    int64 user_id = 2;
 }
 
 message GetFanListResp {
     BaseResp base_resp = 1;
-    repeated int64 user_ids = 2;
+    repeated UserInfo user_infos = 2;
 }

@@ -16,12 +16,9 @@ type Client interface {
 	GetVideosByTime(ctx context.Context, Req *videoproto.GetVideosByTimeReq, callOptions ...callopt.Option) (r *videoproto.GetVideosByTimeResp, err error)
 	LikeVideo(ctx context.Context, Req *videoproto.LikeVideoReq, callOptions ...callopt.Option) (r *videoproto.LikeVideoResp, err error)
 	UnLikeVideo(ctx context.Context, Req *videoproto.UnLikeVideoReq, callOptions ...callopt.Option) (r *videoproto.UnLikeVideoResp, err error)
-	GetWhetherBeLiked(ctx context.Context, Req *videoproto.GetWhetherBeLikedReq, callOptions ...callopt.Option) (r *videoproto.GetWhetherBeLikedResp, err error)
-	GetLikesCount(ctx context.Context, Req *videoproto.GetLikesCountReq, callOptions ...callopt.Option) (r *videoproto.GetLikesCountResp, err error)
 	CreateComment(ctx context.Context, Req *videoproto.CreateCommentReq, callOptions ...callopt.Option) (r *videoproto.CreateCommentResp, err error)
 	DeleteComment(ctx context.Context, Req *videoproto.DeleteCommentReq, callOptions ...callopt.Option) (r *videoproto.DeleteCommentResp, err error)
 	GetComments(ctx context.Context, Req *videoproto.GetCommentsReq, callOptions ...callopt.Option) (r *videoproto.GetCommentsResp, err error)
-	GetCommentsCount(ctx context.Context, Req *videoproto.GetCommentsCountReq, callOptions ...callopt.Option) (r *videoproto.GetCommentsCountResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -78,16 +75,6 @@ func (p *kVideoServiceClient) UnLikeVideo(ctx context.Context, Req *videoproto.U
 	return p.kClient.UnLikeVideo(ctx, Req)
 }
 
-func (p *kVideoServiceClient) GetWhetherBeLiked(ctx context.Context, Req *videoproto.GetWhetherBeLikedReq, callOptions ...callopt.Option) (r *videoproto.GetWhetherBeLikedResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetWhetherBeLiked(ctx, Req)
-}
-
-func (p *kVideoServiceClient) GetLikesCount(ctx context.Context, Req *videoproto.GetLikesCountReq, callOptions ...callopt.Option) (r *videoproto.GetLikesCountResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetLikesCount(ctx, Req)
-}
-
 func (p *kVideoServiceClient) CreateComment(ctx context.Context, Req *videoproto.CreateCommentReq, callOptions ...callopt.Option) (r *videoproto.CreateCommentResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.CreateComment(ctx, Req)
@@ -101,9 +88,4 @@ func (p *kVideoServiceClient) DeleteComment(ctx context.Context, Req *videoproto
 func (p *kVideoServiceClient) GetComments(ctx context.Context, Req *videoproto.GetCommentsReq, callOptions ...callopt.Option) (r *videoproto.GetCommentsResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetComments(ctx, Req)
-}
-
-func (p *kVideoServiceClient) GetCommentsCount(ctx context.Context, Req *videoproto.GetCommentsCountReq, callOptions ...callopt.Option) (r *videoproto.GetCommentsCountResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetCommentsCount(ctx, Req)
 }

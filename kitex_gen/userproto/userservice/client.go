@@ -16,8 +16,6 @@ type Client interface {
 	CheckUser(ctx context.Context, Req *userproto.CheckUserReq, callOptions ...callopt.Option) (r *userproto.CheckUserResp, err error)
 	FollowUser(ctx context.Context, Req *userproto.FollowUserReq, callOptions ...callopt.Option) (r *userproto.FollowUserResp, err error)
 	UnFollowUser(ctx context.Context, Req *userproto.UnFollowUserReq, callOptions ...callopt.Option) (r *userproto.UnFollowUserResp, err error)
-	GetUserRelations(ctx context.Context, Req *userproto.GetUserRelationsReq, callOptions ...callopt.Option) (r *userproto.GetUserRelationsResp, err error)
-	GetWhetherBeFollowed(ctx context.Context, Req *userproto.GetWhetherBeFollowedReq, callOptions ...callopt.Option) (r *userproto.GetWhetherBeFollowedResp, err error)
 	GetFollowList(ctx context.Context, Req *userproto.GetFollowListReq, callOptions ...callopt.Option) (r *userproto.GetFollowListResp, err error)
 	GetFanList(ctx context.Context, Req *userproto.GetFanListReq, callOptions ...callopt.Option) (r *userproto.GetFanListResp, err error)
 }
@@ -74,16 +72,6 @@ func (p *kUserServiceClient) FollowUser(ctx context.Context, Req *userproto.Foll
 func (p *kUserServiceClient) UnFollowUser(ctx context.Context, Req *userproto.UnFollowUserReq, callOptions ...callopt.Option) (r *userproto.UnFollowUserResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UnFollowUser(ctx, Req)
-}
-
-func (p *kUserServiceClient) GetUserRelations(ctx context.Context, Req *userproto.GetUserRelationsReq, callOptions ...callopt.Option) (r *userproto.GetUserRelationsResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetUserRelations(ctx, Req)
-}
-
-func (p *kUserServiceClient) GetWhetherBeFollowed(ctx context.Context, Req *userproto.GetWhetherBeFollowedReq, callOptions ...callopt.Option) (r *userproto.GetWhetherBeFollowedResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetWhetherBeFollowed(ctx, Req)
 }
 
 func (p *kUserServiceClient) GetFollowList(ctx context.Context, Req *userproto.GetFollowListReq, callOptions ...callopt.Option) (r *userproto.GetFollowListResp, err error) {

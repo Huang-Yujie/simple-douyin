@@ -22,15 +22,13 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "UserService"
 	handlerType := (*userproto.UserService)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"CreateUser":           kitex.NewMethodInfo(createUserHandler, newCreateUserArgs, newCreateUserResult, false),
-		"GetUser":              kitex.NewMethodInfo(getUserHandler, newGetUserArgs, newGetUserResult, false),
-		"CheckUser":            kitex.NewMethodInfo(checkUserHandler, newCheckUserArgs, newCheckUserResult, false),
-		"FollowUser":           kitex.NewMethodInfo(followUserHandler, newFollowUserArgs, newFollowUserResult, false),
-		"UnFollowUser":         kitex.NewMethodInfo(unFollowUserHandler, newUnFollowUserArgs, newUnFollowUserResult, false),
-		"GetUserRelations":     kitex.NewMethodInfo(getUserRelationsHandler, newGetUserRelationsArgs, newGetUserRelationsResult, false),
-		"GetWhetherBeFollowed": kitex.NewMethodInfo(getWhetherBeFollowedHandler, newGetWhetherBeFollowedArgs, newGetWhetherBeFollowedResult, false),
-		"GetFollowList":        kitex.NewMethodInfo(getFollowListHandler, newGetFollowListArgs, newGetFollowListResult, false),
-		"GetFanList":           kitex.NewMethodInfo(getFanListHandler, newGetFanListArgs, newGetFanListResult, false),
+		"CreateUser":    kitex.NewMethodInfo(createUserHandler, newCreateUserArgs, newCreateUserResult, false),
+		"GetUser":       kitex.NewMethodInfo(getUserHandler, newGetUserArgs, newGetUserResult, false),
+		"CheckUser":     kitex.NewMethodInfo(checkUserHandler, newCheckUserArgs, newCheckUserResult, false),
+		"FollowUser":    kitex.NewMethodInfo(followUserHandler, newFollowUserArgs, newFollowUserResult, false),
+		"UnFollowUser":  kitex.NewMethodInfo(unFollowUserHandler, newUnFollowUserArgs, newUnFollowUserResult, false),
+		"GetFollowList": kitex.NewMethodInfo(getFollowListHandler, newGetFollowListArgs, newGetFollowListResult, false),
+		"GetFanList":    kitex.NewMethodInfo(getFanListHandler, newGetFanListArgs, newGetFanListResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "user",
@@ -561,212 +559,6 @@ func (p *UnFollowUserResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
-func getUserRelationsHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	switch s := arg.(type) {
-	case *streaming.Args:
-		st := s.Stream
-		req := new(userproto.GetUserRelationsReq)
-		if err := st.RecvMsg(req); err != nil {
-			return err
-		}
-		resp, err := handler.(userproto.UserService).GetUserRelations(ctx, req)
-		if err != nil {
-			return err
-		}
-		if err := st.SendMsg(resp); err != nil {
-			return err
-		}
-	case *GetUserRelationsArgs:
-		success, err := handler.(userproto.UserService).GetUserRelations(ctx, s.Req)
-		if err != nil {
-			return err
-		}
-		realResult := result.(*GetUserRelationsResult)
-		realResult.Success = success
-	}
-	return nil
-}
-func newGetUserRelationsArgs() interface{} {
-	return &GetUserRelationsArgs{}
-}
-
-func newGetUserRelationsResult() interface{} {
-	return &GetUserRelationsResult{}
-}
-
-type GetUserRelationsArgs struct {
-	Req *userproto.GetUserRelationsReq
-}
-
-func (p *GetUserRelationsArgs) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetReq() {
-		return out, fmt.Errorf("No req in GetUserRelationsArgs")
-	}
-	return proto.Marshal(p.Req)
-}
-
-func (p *GetUserRelationsArgs) Unmarshal(in []byte) error {
-	msg := new(userproto.GetUserRelationsReq)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Req = msg
-	return nil
-}
-
-var GetUserRelationsArgs_Req_DEFAULT *userproto.GetUserRelationsReq
-
-func (p *GetUserRelationsArgs) GetReq() *userproto.GetUserRelationsReq {
-	if !p.IsSetReq() {
-		return GetUserRelationsArgs_Req_DEFAULT
-	}
-	return p.Req
-}
-
-func (p *GetUserRelationsArgs) IsSetReq() bool {
-	return p.Req != nil
-}
-
-type GetUserRelationsResult struct {
-	Success *userproto.GetUserRelationsResp
-}
-
-var GetUserRelationsResult_Success_DEFAULT *userproto.GetUserRelationsResp
-
-func (p *GetUserRelationsResult) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetSuccess() {
-		return out, fmt.Errorf("No req in GetUserRelationsResult")
-	}
-	return proto.Marshal(p.Success)
-}
-
-func (p *GetUserRelationsResult) Unmarshal(in []byte) error {
-	msg := new(userproto.GetUserRelationsResp)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Success = msg
-	return nil
-}
-
-func (p *GetUserRelationsResult) GetSuccess() *userproto.GetUserRelationsResp {
-	if !p.IsSetSuccess() {
-		return GetUserRelationsResult_Success_DEFAULT
-	}
-	return p.Success
-}
-
-func (p *GetUserRelationsResult) SetSuccess(x interface{}) {
-	p.Success = x.(*userproto.GetUserRelationsResp)
-}
-
-func (p *GetUserRelationsResult) IsSetSuccess() bool {
-	return p.Success != nil
-}
-
-func getWhetherBeFollowedHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	switch s := arg.(type) {
-	case *streaming.Args:
-		st := s.Stream
-		req := new(userproto.GetWhetherBeFollowedReq)
-		if err := st.RecvMsg(req); err != nil {
-			return err
-		}
-		resp, err := handler.(userproto.UserService).GetWhetherBeFollowed(ctx, req)
-		if err != nil {
-			return err
-		}
-		if err := st.SendMsg(resp); err != nil {
-			return err
-		}
-	case *GetWhetherBeFollowedArgs:
-		success, err := handler.(userproto.UserService).GetWhetherBeFollowed(ctx, s.Req)
-		if err != nil {
-			return err
-		}
-		realResult := result.(*GetWhetherBeFollowedResult)
-		realResult.Success = success
-	}
-	return nil
-}
-func newGetWhetherBeFollowedArgs() interface{} {
-	return &GetWhetherBeFollowedArgs{}
-}
-
-func newGetWhetherBeFollowedResult() interface{} {
-	return &GetWhetherBeFollowedResult{}
-}
-
-type GetWhetherBeFollowedArgs struct {
-	Req *userproto.GetWhetherBeFollowedReq
-}
-
-func (p *GetWhetherBeFollowedArgs) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetReq() {
-		return out, fmt.Errorf("No req in GetWhetherBeFollowedArgs")
-	}
-	return proto.Marshal(p.Req)
-}
-
-func (p *GetWhetherBeFollowedArgs) Unmarshal(in []byte) error {
-	msg := new(userproto.GetWhetherBeFollowedReq)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Req = msg
-	return nil
-}
-
-var GetWhetherBeFollowedArgs_Req_DEFAULT *userproto.GetWhetherBeFollowedReq
-
-func (p *GetWhetherBeFollowedArgs) GetReq() *userproto.GetWhetherBeFollowedReq {
-	if !p.IsSetReq() {
-		return GetWhetherBeFollowedArgs_Req_DEFAULT
-	}
-	return p.Req
-}
-
-func (p *GetWhetherBeFollowedArgs) IsSetReq() bool {
-	return p.Req != nil
-}
-
-type GetWhetherBeFollowedResult struct {
-	Success *userproto.GetWhetherBeFollowedResp
-}
-
-var GetWhetherBeFollowedResult_Success_DEFAULT *userproto.GetWhetherBeFollowedResp
-
-func (p *GetWhetherBeFollowedResult) Marshal(out []byte) ([]byte, error) {
-	if !p.IsSetSuccess() {
-		return out, fmt.Errorf("No req in GetWhetherBeFollowedResult")
-	}
-	return proto.Marshal(p.Success)
-}
-
-func (p *GetWhetherBeFollowedResult) Unmarshal(in []byte) error {
-	msg := new(userproto.GetWhetherBeFollowedResp)
-	if err := proto.Unmarshal(in, msg); err != nil {
-		return err
-	}
-	p.Success = msg
-	return nil
-}
-
-func (p *GetWhetherBeFollowedResult) GetSuccess() *userproto.GetWhetherBeFollowedResp {
-	if !p.IsSetSuccess() {
-		return GetWhetherBeFollowedResult_Success_DEFAULT
-	}
-	return p.Success
-}
-
-func (p *GetWhetherBeFollowedResult) SetSuccess(x interface{}) {
-	p.Success = x.(*userproto.GetWhetherBeFollowedResp)
-}
-
-func (p *GetWhetherBeFollowedResult) IsSetSuccess() bool {
-	return p.Success != nil
-}
-
 func getFollowListHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	switch s := arg.(type) {
 	case *streaming.Args:
@@ -1028,26 +820,6 @@ func (p *kClient) UnFollowUser(ctx context.Context, Req *userproto.UnFollowUserR
 	_args.Req = Req
 	var _result UnFollowUserResult
 	if err = p.c.Call(ctx, "UnFollowUser", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) GetUserRelations(ctx context.Context, Req *userproto.GetUserRelationsReq) (r *userproto.GetUserRelationsResp, err error) {
-	var _args GetUserRelationsArgs
-	_args.Req = Req
-	var _result GetUserRelationsResult
-	if err = p.c.Call(ctx, "GetUserRelations", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) GetWhetherBeFollowed(ctx context.Context, Req *userproto.GetWhetherBeFollowedReq) (r *userproto.GetWhetherBeFollowedResp, err error) {
-	var _args GetWhetherBeFollowedArgs
-	_args.Req = Req
-	var _result GetWhetherBeFollowedResult
-	if err = p.c.Call(ctx, "GetWhetherBeFollowed", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
