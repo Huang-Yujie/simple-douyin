@@ -8,6 +8,9 @@ type Comment struct {
 	CreatedAt int
 }
 
+func (f *Comment) TableName() string {
+	return "comment"
+}
 
 
 

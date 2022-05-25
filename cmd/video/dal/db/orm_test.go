@@ -142,5 +142,4 @@ func TestGetComment(t *testing.T) {
 	for i:=0; i<len(commentInfos); i++ {
 		fmt.Printf("%#v\n", *commentInfos[i])
 	}
-
 }
