@@ -2,11 +2,11 @@ package main
 
 import (
 	"log"
-	userproto "simple-douyin/cmd/user/kitex_gen/userproto/userservice"
+	"simple-douyin/kitex_gen/userproto/userservice"
 )
 
 func main() {
-	svr := userproto.NewServer(new(UserServiceImpl))
+	svr := userservice.NewServer(new(UserServiceImpl))
 
 	err := svr.Run()
 

@@ -3,7 +3,7 @@ package db
 import (
 	"context"
 	"errors"
-	"simple-douyin/cmd/video/kitex_gen/videoproto"
+	videoproto2 "simple-douyin/kitex_gen/videoproto"
 	"strconv"
 )
 
@@ -101,7 +101,7 @@ func UnLikeVideo(ctx context.Context, UserId int64, VideoId int64) error {
 }
 
 // CreateComment 新增评论,需要da层返回评论详情
-func CreateComment(ctx context.Context, UserId int64, VideoId int64, Content string) (*videoproto.CommentInfo, error) {
+func CreateComment(ctx context.Context, UserId int64, VideoId int64, Content string) (*videoproto2.CommentInfo, error) {
 	comment := Comment{
 		UserID: uint(UserId),
 		VideoID: uint(VideoId),
@@ -111,7 +111,7 @@ func CreateComment(ctx context.Context, UserId int64, VideoId int64, Content str
 		panic(err)
 	}
 
-	resp := &videoproto.CommentInfo{
+	resp := &videoproto2.CommentInfo{
 		CommentId: int64(comment.CommentID),
 		UserId: int64(comment.UserID),
 		Content: comment.Content,
@@ -130,18 +130,18 @@ func DeleteComment(ctx context.Context, CommentId int64) error {
 }
 
 // GetComment 查询评论,需要da层返回评论详情,有可能有多条评论
-func GetComment(ctx context.Context, UserId int64, VideoId int64) ([]*videoproto.CommentInfo, error) {
+func GetComment(ctx context.Context, UserId int64, VideoId int64) ([]*videoproto2.CommentInfo, error) {
 	var comments []*Comment
 	result := DB.WithContext(ctx).Model(&Comment{}).Where("user_id = ? AND video_id = ?", UserId, VideoId).Find(&comments)
 	if result.Error != nil {
-		return make([]*videoproto.CommentInfo, 0), result.Error
+		return make([]*videoproto2.CommentInfo, 0), result.Error
 	}
 	if len(comments) == 0 {
-		return make([]*videoproto.CommentInfo, 0), errors.New("没有相应的评论信息")
+		return make([]*videoproto2.CommentInfo, 0), errors.New("没有相应的评论信息")
 	}
-	commmentInfos := make([]*videoproto.CommentInfo, len(comments))
+	commmentInfos := make([]*videoproto2.CommentInfo, len(comments))
 	for i:=0; i<len(comments); i++ {
-		commmentInfos[i] = &videoproto.CommentInfo{
+		commmentInfos[i] = &videoproto2.CommentInfo{
 			CommentId: int64(comments[i].CommentID),
 			UserId: int64(comments[i].UserID),
 			Content: comments[i].Content,

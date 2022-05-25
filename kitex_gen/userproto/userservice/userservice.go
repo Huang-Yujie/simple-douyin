@@ -9,7 +9,7 @@ import (
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
 	"github.com/cloudwego/kitex/pkg/streaming"
 	"google.golang.org/protobuf/proto"
-	"simple-douyin/cmd/user/kitex_gen/userproto"
+	userproto2 "simple-douyin/kitex_gen/userproto"
 )
 
 func serviceInfo() *kitex.ServiceInfo {
@@ -20,7 +20,7 @@ var userServiceServiceInfo = NewServiceInfo()
 
 func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "UserService"
-	handlerType := (*userproto.UserService)(nil)
+	handlerType := (*userproto2.UserService)(nil)
 	methods := map[string]kitex.MethodInfo{
 		"CreateUser":    kitex.NewMethodInfo(createUserHandler, newCreateUserArgs, newCreateUserResult, false),
 		"GetUser":       kitex.NewMethodInfo(getUserHandler, newGetUserArgs, newGetUserResult, false),
@@ -48,11 +48,11 @@ func createUserHandler(ctx context.Context, handler interface{}, arg, result int
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(userproto.CreateUserReq)
+		req := new(userproto2.CreateUserReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(userproto.UserService).CreateUser(ctx, req)
+		resp, err := handler.(userproto2.UserService).CreateUser(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -60,7 +60,7 @@ func createUserHandler(ctx context.Context, handler interface{}, arg, result int
 			return err
 		}
 	case *CreateUserArgs:
-		success, err := handler.(userproto.UserService).CreateUser(ctx, s.Req)
+		success, err := handler.(userproto2.UserService).CreateUser(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -78,7 +78,7 @@ func newCreateUserResult() interface{} {
 }
 
 type CreateUserArgs struct {
-	Req *userproto.CreateUserReq
+	Req *userproto2.CreateUserReq
 }
 
 func (p *CreateUserArgs) Marshal(out []byte) ([]byte, error) {
@@ -89,7 +89,7 @@ func (p *CreateUserArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *CreateUserArgs) Unmarshal(in []byte) error {
-	msg := new(userproto.CreateUserReq)
+	msg := new(userproto2.CreateUserReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -97,9 +97,9 @@ func (p *CreateUserArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var CreateUserArgs_Req_DEFAULT *userproto.CreateUserReq
+var CreateUserArgs_Req_DEFAULT *userproto2.CreateUserReq
 
-func (p *CreateUserArgs) GetReq() *userproto.CreateUserReq {
+func (p *CreateUserArgs) GetReq() *userproto2.CreateUserReq {
 	if !p.IsSetReq() {
 		return CreateUserArgs_Req_DEFAULT
 	}
@@ -111,10 +111,10 @@ func (p *CreateUserArgs) IsSetReq() bool {
 }
 
 type CreateUserResult struct {
-	Success *userproto.CreateUserResp
+	Success *userproto2.CreateUserResp
 }
 
-var CreateUserResult_Success_DEFAULT *userproto.CreateUserResp
+var CreateUserResult_Success_DEFAULT *userproto2.CreateUserResp
 
 func (p *CreateUserResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -124,7 +124,7 @@ func (p *CreateUserResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *CreateUserResult) Unmarshal(in []byte) error {
-	msg := new(userproto.CreateUserResp)
+	msg := new(userproto2.CreateUserResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -132,7 +132,7 @@ func (p *CreateUserResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *CreateUserResult) GetSuccess() *userproto.CreateUserResp {
+func (p *CreateUserResult) GetSuccess() *userproto2.CreateUserResp {
 	if !p.IsSetSuccess() {
 		return CreateUserResult_Success_DEFAULT
 	}
@@ -140,7 +140,7 @@ func (p *CreateUserResult) GetSuccess() *userproto.CreateUserResp {
 }
 
 func (p *CreateUserResult) SetSuccess(x interface{}) {
-	p.Success = x.(*userproto.CreateUserResp)
+	p.Success = x.(*userproto2.CreateUserResp)
 }
 
 func (p *CreateUserResult) IsSetSuccess() bool {
@@ -151,11 +151,11 @@ func getUserHandler(ctx context.Context, handler interface{}, arg, result interf
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(userproto.GetUserReq)
+		req := new(userproto2.GetUserReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(userproto.UserService).GetUser(ctx, req)
+		resp, err := handler.(userproto2.UserService).GetUser(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -163,7 +163,7 @@ func getUserHandler(ctx context.Context, handler interface{}, arg, result interf
 			return err
 		}
 	case *GetUserArgs:
-		success, err := handler.(userproto.UserService).GetUser(ctx, s.Req)
+		success, err := handler.(userproto2.UserService).GetUser(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -181,7 +181,7 @@ func newGetUserResult() interface{} {
 }
 
 type GetUserArgs struct {
-	Req *userproto.GetUserReq
+	Req *userproto2.GetUserReq
 }
 
 func (p *GetUserArgs) Marshal(out []byte) ([]byte, error) {
@@ -192,7 +192,7 @@ func (p *GetUserArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *GetUserArgs) Unmarshal(in []byte) error {
-	msg := new(userproto.GetUserReq)
+	msg := new(userproto2.GetUserReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -200,9 +200,9 @@ func (p *GetUserArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var GetUserArgs_Req_DEFAULT *userproto.GetUserReq
+var GetUserArgs_Req_DEFAULT *userproto2.GetUserReq
 
-func (p *GetUserArgs) GetReq() *userproto.GetUserReq {
+func (p *GetUserArgs) GetReq() *userproto2.GetUserReq {
 	if !p.IsSetReq() {
 		return GetUserArgs_Req_DEFAULT
 	}
@@ -214,10 +214,10 @@ func (p *GetUserArgs) IsSetReq() bool {
 }
 
 type GetUserResult struct {
-	Success *userproto.GetUserResp
+	Success *userproto2.GetUserResp
 }
 
-var GetUserResult_Success_DEFAULT *userproto.GetUserResp
+var GetUserResult_Success_DEFAULT *userproto2.GetUserResp
 
 func (p *GetUserResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -227,7 +227,7 @@ func (p *GetUserResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *GetUserResult) Unmarshal(in []byte) error {
-	msg := new(userproto.GetUserResp)
+	msg := new(userproto2.GetUserResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -235,7 +235,7 @@ func (p *GetUserResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *GetUserResult) GetSuccess() *userproto.GetUserResp {
+func (p *GetUserResult) GetSuccess() *userproto2.GetUserResp {
 	if !p.IsSetSuccess() {
 		return GetUserResult_Success_DEFAULT
 	}
@@ -243,7 +243,7 @@ func (p *GetUserResult) GetSuccess() *userproto.GetUserResp {
 }
 
 func (p *GetUserResult) SetSuccess(x interface{}) {
-	p.Success = x.(*userproto.GetUserResp)
+	p.Success = x.(*userproto2.GetUserResp)
 }
 
 func (p *GetUserResult) IsSetSuccess() bool {
@@ -254,11 +254,11 @@ func checkUserHandler(ctx context.Context, handler interface{}, arg, result inte
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(userproto.CheckUserReq)
+		req := new(userproto2.CheckUserReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(userproto.UserService).CheckUser(ctx, req)
+		resp, err := handler.(userproto2.UserService).CheckUser(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -266,7 +266,7 @@ func checkUserHandler(ctx context.Context, handler interface{}, arg, result inte
 			return err
 		}
 	case *CheckUserArgs:
-		success, err := handler.(userproto.UserService).CheckUser(ctx, s.Req)
+		success, err := handler.(userproto2.UserService).CheckUser(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -284,7 +284,7 @@ func newCheckUserResult() interface{} {
 }
 
 type CheckUserArgs struct {
-	Req *userproto.CheckUserReq
+	Req *userproto2.CheckUserReq
 }
 
 func (p *CheckUserArgs) Marshal(out []byte) ([]byte, error) {
@@ -295,7 +295,7 @@ func (p *CheckUserArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *CheckUserArgs) Unmarshal(in []byte) error {
-	msg := new(userproto.CheckUserReq)
+	msg := new(userproto2.CheckUserReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -303,9 +303,9 @@ func (p *CheckUserArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var CheckUserArgs_Req_DEFAULT *userproto.CheckUserReq
+var CheckUserArgs_Req_DEFAULT *userproto2.CheckUserReq
 
-func (p *CheckUserArgs) GetReq() *userproto.CheckUserReq {
+func (p *CheckUserArgs) GetReq() *userproto2.CheckUserReq {
 	if !p.IsSetReq() {
 		return CheckUserArgs_Req_DEFAULT
 	}
@@ -317,10 +317,10 @@ func (p *CheckUserArgs) IsSetReq() bool {
 }
 
 type CheckUserResult struct {
-	Success *userproto.CheckUserResp
+	Success *userproto2.CheckUserResp
 }
 
-var CheckUserResult_Success_DEFAULT *userproto.CheckUserResp
+var CheckUserResult_Success_DEFAULT *userproto2.CheckUserResp
 
 func (p *CheckUserResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -330,7 +330,7 @@ func (p *CheckUserResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *CheckUserResult) Unmarshal(in []byte) error {
-	msg := new(userproto.CheckUserResp)
+	msg := new(userproto2.CheckUserResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -338,7 +338,7 @@ func (p *CheckUserResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *CheckUserResult) GetSuccess() *userproto.CheckUserResp {
+func (p *CheckUserResult) GetSuccess() *userproto2.CheckUserResp {
 	if !p.IsSetSuccess() {
 		return CheckUserResult_Success_DEFAULT
 	}
@@ -346,7 +346,7 @@ func (p *CheckUserResult) GetSuccess() *userproto.CheckUserResp {
 }
 
 func (p *CheckUserResult) SetSuccess(x interface{}) {
-	p.Success = x.(*userproto.CheckUserResp)
+	p.Success = x.(*userproto2.CheckUserResp)
 }
 
 func (p *CheckUserResult) IsSetSuccess() bool {
@@ -357,11 +357,11 @@ func followUserHandler(ctx context.Context, handler interface{}, arg, result int
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(userproto.FollowUserReq)
+		req := new(userproto2.FollowUserReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(userproto.UserService).FollowUser(ctx, req)
+		resp, err := handler.(userproto2.UserService).FollowUser(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -369,7 +369,7 @@ func followUserHandler(ctx context.Context, handler interface{}, arg, result int
 			return err
 		}
 	case *FollowUserArgs:
-		success, err := handler.(userproto.UserService).FollowUser(ctx, s.Req)
+		success, err := handler.(userproto2.UserService).FollowUser(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -387,7 +387,7 @@ func newFollowUserResult() interface{} {
 }
 
 type FollowUserArgs struct {
-	Req *userproto.FollowUserReq
+	Req *userproto2.FollowUserReq
 }
 
 func (p *FollowUserArgs) Marshal(out []byte) ([]byte, error) {
@@ -398,7 +398,7 @@ func (p *FollowUserArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *FollowUserArgs) Unmarshal(in []byte) error {
-	msg := new(userproto.FollowUserReq)
+	msg := new(userproto2.FollowUserReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -406,9 +406,9 @@ func (p *FollowUserArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var FollowUserArgs_Req_DEFAULT *userproto.FollowUserReq
+var FollowUserArgs_Req_DEFAULT *userproto2.FollowUserReq
 
-func (p *FollowUserArgs) GetReq() *userproto.FollowUserReq {
+func (p *FollowUserArgs) GetReq() *userproto2.FollowUserReq {
 	if !p.IsSetReq() {
 		return FollowUserArgs_Req_DEFAULT
 	}
@@ -420,10 +420,10 @@ func (p *FollowUserArgs) IsSetReq() bool {
 }
 
 type FollowUserResult struct {
-	Success *userproto.FollowUserResp
+	Success *userproto2.FollowUserResp
 }
 
-var FollowUserResult_Success_DEFAULT *userproto.FollowUserResp
+var FollowUserResult_Success_DEFAULT *userproto2.FollowUserResp
 
 func (p *FollowUserResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -433,7 +433,7 @@ func (p *FollowUserResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *FollowUserResult) Unmarshal(in []byte) error {
-	msg := new(userproto.FollowUserResp)
+	msg := new(userproto2.FollowUserResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -441,7 +441,7 @@ func (p *FollowUserResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *FollowUserResult) GetSuccess() *userproto.FollowUserResp {
+func (p *FollowUserResult) GetSuccess() *userproto2.FollowUserResp {
 	if !p.IsSetSuccess() {
 		return FollowUserResult_Success_DEFAULT
 	}
@@ -449,7 +449,7 @@ func (p *FollowUserResult) GetSuccess() *userproto.FollowUserResp {
 }
 
 func (p *FollowUserResult) SetSuccess(x interface{}) {
-	p.Success = x.(*userproto.FollowUserResp)
+	p.Success = x.(*userproto2.FollowUserResp)
 }
 
 func (p *FollowUserResult) IsSetSuccess() bool {
@@ -460,11 +460,11 @@ func unFollowUserHandler(ctx context.Context, handler interface{}, arg, result i
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(userproto.UnFollowUserReq)
+		req := new(userproto2.UnFollowUserReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(userproto.UserService).UnFollowUser(ctx, req)
+		resp, err := handler.(userproto2.UserService).UnFollowUser(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -472,7 +472,7 @@ func unFollowUserHandler(ctx context.Context, handler interface{}, arg, result i
 			return err
 		}
 	case *UnFollowUserArgs:
-		success, err := handler.(userproto.UserService).UnFollowUser(ctx, s.Req)
+		success, err := handler.(userproto2.UserService).UnFollowUser(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -490,7 +490,7 @@ func newUnFollowUserResult() interface{} {
 }
 
 type UnFollowUserArgs struct {
-	Req *userproto.UnFollowUserReq
+	Req *userproto2.UnFollowUserReq
 }
 
 func (p *UnFollowUserArgs) Marshal(out []byte) ([]byte, error) {
@@ -501,7 +501,7 @@ func (p *UnFollowUserArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *UnFollowUserArgs) Unmarshal(in []byte) error {
-	msg := new(userproto.UnFollowUserReq)
+	msg := new(userproto2.UnFollowUserReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -509,9 +509,9 @@ func (p *UnFollowUserArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var UnFollowUserArgs_Req_DEFAULT *userproto.UnFollowUserReq
+var UnFollowUserArgs_Req_DEFAULT *userproto2.UnFollowUserReq
 
-func (p *UnFollowUserArgs) GetReq() *userproto.UnFollowUserReq {
+func (p *UnFollowUserArgs) GetReq() *userproto2.UnFollowUserReq {
 	if !p.IsSetReq() {
 		return UnFollowUserArgs_Req_DEFAULT
 	}
@@ -523,10 +523,10 @@ func (p *UnFollowUserArgs) IsSetReq() bool {
 }
 
 type UnFollowUserResult struct {
-	Success *userproto.UnFollowUserResp
+	Success *userproto2.UnFollowUserResp
 }
 
-var UnFollowUserResult_Success_DEFAULT *userproto.UnFollowUserResp
+var UnFollowUserResult_Success_DEFAULT *userproto2.UnFollowUserResp
 
 func (p *UnFollowUserResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -536,7 +536,7 @@ func (p *UnFollowUserResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *UnFollowUserResult) Unmarshal(in []byte) error {
-	msg := new(userproto.UnFollowUserResp)
+	msg := new(userproto2.UnFollowUserResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -544,7 +544,7 @@ func (p *UnFollowUserResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *UnFollowUserResult) GetSuccess() *userproto.UnFollowUserResp {
+func (p *UnFollowUserResult) GetSuccess() *userproto2.UnFollowUserResp {
 	if !p.IsSetSuccess() {
 		return UnFollowUserResult_Success_DEFAULT
 	}
@@ -552,7 +552,7 @@ func (p *UnFollowUserResult) GetSuccess() *userproto.UnFollowUserResp {
 }
 
 func (p *UnFollowUserResult) SetSuccess(x interface{}) {
-	p.Success = x.(*userproto.UnFollowUserResp)
+	p.Success = x.(*userproto2.UnFollowUserResp)
 }
 
 func (p *UnFollowUserResult) IsSetSuccess() bool {
@@ -563,11 +563,11 @@ func getFollowListHandler(ctx context.Context, handler interface{}, arg, result 
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(userproto.GetFollowListReq)
+		req := new(userproto2.GetFollowListReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(userproto.UserService).GetFollowList(ctx, req)
+		resp, err := handler.(userproto2.UserService).GetFollowList(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -575,7 +575,7 @@ func getFollowListHandler(ctx context.Context, handler interface{}, arg, result 
 			return err
 		}
 	case *GetFollowListArgs:
-		success, err := handler.(userproto.UserService).GetFollowList(ctx, s.Req)
+		success, err := handler.(userproto2.UserService).GetFollowList(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -593,7 +593,7 @@ func newGetFollowListResult() interface{} {
 }
 
 type GetFollowListArgs struct {
-	Req *userproto.GetFollowListReq
+	Req *userproto2.GetFollowListReq
 }
 
 func (p *GetFollowListArgs) Marshal(out []byte) ([]byte, error) {
@@ -604,7 +604,7 @@ func (p *GetFollowListArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *GetFollowListArgs) Unmarshal(in []byte) error {
-	msg := new(userproto.GetFollowListReq)
+	msg := new(userproto2.GetFollowListReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -612,9 +612,9 @@ func (p *GetFollowListArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var GetFollowListArgs_Req_DEFAULT *userproto.GetFollowListReq
+var GetFollowListArgs_Req_DEFAULT *userproto2.GetFollowListReq
 
-func (p *GetFollowListArgs) GetReq() *userproto.GetFollowListReq {
+func (p *GetFollowListArgs) GetReq() *userproto2.GetFollowListReq {
 	if !p.IsSetReq() {
 		return GetFollowListArgs_Req_DEFAULT
 	}
@@ -626,10 +626,10 @@ func (p *GetFollowListArgs) IsSetReq() bool {
 }
 
 type GetFollowListResult struct {
-	Success *userproto.GetFollowListResp
+	Success *userproto2.GetFollowListResp
 }
 
-var GetFollowListResult_Success_DEFAULT *userproto.GetFollowListResp
+var GetFollowListResult_Success_DEFAULT *userproto2.GetFollowListResp
 
 func (p *GetFollowListResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -639,7 +639,7 @@ func (p *GetFollowListResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *GetFollowListResult) Unmarshal(in []byte) error {
-	msg := new(userproto.GetFollowListResp)
+	msg := new(userproto2.GetFollowListResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -647,7 +647,7 @@ func (p *GetFollowListResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *GetFollowListResult) GetSuccess() *userproto.GetFollowListResp {
+func (p *GetFollowListResult) GetSuccess() *userproto2.GetFollowListResp {
 	if !p.IsSetSuccess() {
 		return GetFollowListResult_Success_DEFAULT
 	}
@@ -655,7 +655,7 @@ func (p *GetFollowListResult) GetSuccess() *userproto.GetFollowListResp {
 }
 
 func (p *GetFollowListResult) SetSuccess(x interface{}) {
-	p.Success = x.(*userproto.GetFollowListResp)
+	p.Success = x.(*userproto2.GetFollowListResp)
 }
 
 func (p *GetFollowListResult) IsSetSuccess() bool {
@@ -666,11 +666,11 @@ func getFanListHandler(ctx context.Context, handler interface{}, arg, result int
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(userproto.GetFanListReq)
+		req := new(userproto2.GetFanListReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(userproto.UserService).GetFanList(ctx, req)
+		resp, err := handler.(userproto2.UserService).GetFanList(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -678,7 +678,7 @@ func getFanListHandler(ctx context.Context, handler interface{}, arg, result int
 			return err
 		}
 	case *GetFanListArgs:
-		success, err := handler.(userproto.UserService).GetFanList(ctx, s.Req)
+		success, err := handler.(userproto2.UserService).GetFanList(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -696,7 +696,7 @@ func newGetFanListResult() interface{} {
 }
 
 type GetFanListArgs struct {
-	Req *userproto.GetFanListReq
+	Req *userproto2.GetFanListReq
 }
 
 func (p *GetFanListArgs) Marshal(out []byte) ([]byte, error) {
@@ -707,7 +707,7 @@ func (p *GetFanListArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *GetFanListArgs) Unmarshal(in []byte) error {
-	msg := new(userproto.GetFanListReq)
+	msg := new(userproto2.GetFanListReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -715,9 +715,9 @@ func (p *GetFanListArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var GetFanListArgs_Req_DEFAULT *userproto.GetFanListReq
+var GetFanListArgs_Req_DEFAULT *userproto2.GetFanListReq
 
-func (p *GetFanListArgs) GetReq() *userproto.GetFanListReq {
+func (p *GetFanListArgs) GetReq() *userproto2.GetFanListReq {
 	if !p.IsSetReq() {
 		return GetFanListArgs_Req_DEFAULT
 	}
@@ -729,10 +729,10 @@ func (p *GetFanListArgs) IsSetReq() bool {
 }
 
 type GetFanListResult struct {
-	Success *userproto.GetFanListResp
+	Success *userproto2.GetFanListResp
 }
 
-var GetFanListResult_Success_DEFAULT *userproto.GetFanListResp
+var GetFanListResult_Success_DEFAULT *userproto2.GetFanListResp
 
 func (p *GetFanListResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -742,7 +742,7 @@ func (p *GetFanListResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *GetFanListResult) Unmarshal(in []byte) error {
-	msg := new(userproto.GetFanListResp)
+	msg := new(userproto2.GetFanListResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -750,7 +750,7 @@ func (p *GetFanListResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *GetFanListResult) GetSuccess() *userproto.GetFanListResp {
+func (p *GetFanListResult) GetSuccess() *userproto2.GetFanListResp {
 	if !p.IsSetSuccess() {
 		return GetFanListResult_Success_DEFAULT
 	}
@@ -758,7 +758,7 @@ func (p *GetFanListResult) GetSuccess() *userproto.GetFanListResp {
 }
 
 func (p *GetFanListResult) SetSuccess(x interface{}) {
-	p.Success = x.(*userproto.GetFanListResp)
+	p.Success = x.(*userproto2.GetFanListResp)
 }
 
 func (p *GetFanListResult) IsSetSuccess() bool {
@@ -775,7 +775,7 @@ func newServiceClient(c client.Client) *kClient {
 	}
 }
 
-func (p *kClient) CreateUser(ctx context.Context, Req *userproto.CreateUserReq) (r *userproto.CreateUserResp, err error) {
+func (p *kClient) CreateUser(ctx context.Context, Req *userproto2.CreateUserReq) (r *userproto2.CreateUserResp, err error) {
 	var _args CreateUserArgs
 	_args.Req = Req
 	var _result CreateUserResult
@@ -785,7 +785,7 @@ func (p *kClient) CreateUser(ctx context.Context, Req *userproto.CreateUserReq) 
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) GetUser(ctx context.Context, Req *userproto.GetUserReq) (r *userproto.GetUserResp, err error) {
+func (p *kClient) GetUser(ctx context.Context, Req *userproto2.GetUserReq) (r *userproto2.GetUserResp, err error) {
 	var _args GetUserArgs
 	_args.Req = Req
 	var _result GetUserResult
@@ -795,7 +795,7 @@ func (p *kClient) GetUser(ctx context.Context, Req *userproto.GetUserReq) (r *us
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) CheckUser(ctx context.Context, Req *userproto.CheckUserReq) (r *userproto.CheckUserResp, err error) {
+func (p *kClient) CheckUser(ctx context.Context, Req *userproto2.CheckUserReq) (r *userproto2.CheckUserResp, err error) {
 	var _args CheckUserArgs
 	_args.Req = Req
 	var _result CheckUserResult
@@ -805,7 +805,7 @@ func (p *kClient) CheckUser(ctx context.Context, Req *userproto.CheckUserReq) (r
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) FollowUser(ctx context.Context, Req *userproto.FollowUserReq) (r *userproto.FollowUserResp, err error) {
+func (p *kClient) FollowUser(ctx context.Context, Req *userproto2.FollowUserReq) (r *userproto2.FollowUserResp, err error) {
 	var _args FollowUserArgs
 	_args.Req = Req
 	var _result FollowUserResult
@@ -815,7 +815,7 @@ func (p *kClient) FollowUser(ctx context.Context, Req *userproto.FollowUserReq) 
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) UnFollowUser(ctx context.Context, Req *userproto.UnFollowUserReq) (r *userproto.UnFollowUserResp, err error) {
+func (p *kClient) UnFollowUser(ctx context.Context, Req *userproto2.UnFollowUserReq) (r *userproto2.UnFollowUserResp, err error) {
 	var _args UnFollowUserArgs
 	_args.Req = Req
 	var _result UnFollowUserResult
@@ -825,7 +825,7 @@ func (p *kClient) UnFollowUser(ctx context.Context, Req *userproto.UnFollowUserR
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) GetFollowList(ctx context.Context, Req *userproto.GetFollowListReq) (r *userproto.GetFollowListResp, err error) {
+func (p *kClient) GetFollowList(ctx context.Context, Req *userproto2.GetFollowListReq) (r *userproto2.GetFollowListResp, err error) {
 	var _args GetFollowListArgs
 	_args.Req = Req
 	var _result GetFollowListResult
@@ -835,7 +835,7 @@ func (p *kClient) GetFollowList(ctx context.Context, Req *userproto.GetFollowLis
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) GetFanList(ctx context.Context, Req *userproto.GetFanListReq) (r *userproto.GetFanListResp, err error) {
+func (p *kClient) GetFanList(ctx context.Context, Req *userproto2.GetFanListReq) (r *userproto2.GetFanListResp, err error) {
 	var _args GetFanListArgs
 	_args.Req = Req
 	var _result GetFanListResult

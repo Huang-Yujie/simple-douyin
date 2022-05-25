@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"simple-douyin/cmd/video/dal/db"
-	"simple-douyin/cmd/video/kitex_gen/videoproto"
+	videoproto2 "simple-douyin/kitex_gen/videoproto"
 	"testing"
 )
 
@@ -13,8 +13,8 @@ func TestCreateVideo(t *testing.T) {
 
 	impl := VideoServiceImpl{}
 
-	req := &videoproto.CreateVideoReq{
-		VideoBaseInfo: &videoproto.VideoBaseInfo{
+	req := &videoproto2.CreateVideoReq{
+		VideoBaseInfo: &videoproto2.VideoBaseInfo{
 			UserId: int64(1),
 			PlayAddr: "Testing TestCreateVideo",
 			CoverAddr: "Testing TestCreateVideo",

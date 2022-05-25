@@ -9,7 +9,7 @@ import (
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
 	"github.com/cloudwego/kitex/pkg/streaming"
 	"google.golang.org/protobuf/proto"
-	"simple-douyin/cmd/video/kitex_gen/videoproto"
+	videoproto2 "simple-douyin/kitex_gen/videoproto"
 )
 
 func serviceInfo() *kitex.ServiceInfo {
@@ -20,7 +20,7 @@ var videoServiceServiceInfo = NewServiceInfo()
 
 func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "VideoService"
-	handlerType := (*videoproto.VideoService)(nil)
+	handlerType := (*videoproto2.VideoService)(nil)
 	methods := map[string]kitex.MethodInfo{
 		"CreateVideo":       kitex.NewMethodInfo(createVideoHandler, newCreateVideoArgs, newCreateVideoResult, false),
 		"GetVideosByUserId": kitex.NewMethodInfo(getVideosByUserIdHandler, newGetVideosByUserIdArgs, newGetVideosByUserIdResult, false),
@@ -49,11 +49,11 @@ func createVideoHandler(ctx context.Context, handler interface{}, arg, result in
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(videoproto.CreateVideoReq)
+		req := new(videoproto2.CreateVideoReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(videoproto.VideoService).CreateVideo(ctx, req)
+		resp, err := handler.(videoproto2.VideoService).CreateVideo(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -61,7 +61,7 @@ func createVideoHandler(ctx context.Context, handler interface{}, arg, result in
 			return err
 		}
 	case *CreateVideoArgs:
-		success, err := handler.(videoproto.VideoService).CreateVideo(ctx, s.Req)
+		success, err := handler.(videoproto2.VideoService).CreateVideo(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -79,7 +79,7 @@ func newCreateVideoResult() interface{} {
 }
 
 type CreateVideoArgs struct {
-	Req *videoproto.CreateVideoReq
+	Req *videoproto2.CreateVideoReq
 }
 
 func (p *CreateVideoArgs) Marshal(out []byte) ([]byte, error) {
@@ -90,7 +90,7 @@ func (p *CreateVideoArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *CreateVideoArgs) Unmarshal(in []byte) error {
-	msg := new(videoproto.CreateVideoReq)
+	msg := new(videoproto2.CreateVideoReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -98,9 +98,9 @@ func (p *CreateVideoArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var CreateVideoArgs_Req_DEFAULT *videoproto.CreateVideoReq
+var CreateVideoArgs_Req_DEFAULT *videoproto2.CreateVideoReq
 
-func (p *CreateVideoArgs) GetReq() *videoproto.CreateVideoReq {
+func (p *CreateVideoArgs) GetReq() *videoproto2.CreateVideoReq {
 	if !p.IsSetReq() {
 		return CreateVideoArgs_Req_DEFAULT
 	}
@@ -112,10 +112,10 @@ func (p *CreateVideoArgs) IsSetReq() bool {
 }
 
 type CreateVideoResult struct {
-	Success *videoproto.CreateVideoResp
+	Success *videoproto2.CreateVideoResp
 }
 
-var CreateVideoResult_Success_DEFAULT *videoproto.CreateVideoResp
+var CreateVideoResult_Success_DEFAULT *videoproto2.CreateVideoResp
 
 func (p *CreateVideoResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -125,7 +125,7 @@ func (p *CreateVideoResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *CreateVideoResult) Unmarshal(in []byte) error {
-	msg := new(videoproto.CreateVideoResp)
+	msg := new(videoproto2.CreateVideoResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -133,7 +133,7 @@ func (p *CreateVideoResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *CreateVideoResult) GetSuccess() *videoproto.CreateVideoResp {
+func (p *CreateVideoResult) GetSuccess() *videoproto2.CreateVideoResp {
 	if !p.IsSetSuccess() {
 		return CreateVideoResult_Success_DEFAULT
 	}
@@ -141,7 +141,7 @@ func (p *CreateVideoResult) GetSuccess() *videoproto.CreateVideoResp {
 }
 
 func (p *CreateVideoResult) SetSuccess(x interface{}) {
-	p.Success = x.(*videoproto.CreateVideoResp)
+	p.Success = x.(*videoproto2.CreateVideoResp)
 }
 
 func (p *CreateVideoResult) IsSetSuccess() bool {
@@ -152,11 +152,11 @@ func getVideosByUserIdHandler(ctx context.Context, handler interface{}, arg, res
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(videoproto.GetVideosByUserIdReq)
+		req := new(videoproto2.GetVideosByUserIdReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(videoproto.VideoService).GetVideosByUserId(ctx, req)
+		resp, err := handler.(videoproto2.VideoService).GetVideosByUserId(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -164,7 +164,7 @@ func getVideosByUserIdHandler(ctx context.Context, handler interface{}, arg, res
 			return err
 		}
 	case *GetVideosByUserIdArgs:
-		success, err := handler.(videoproto.VideoService).GetVideosByUserId(ctx, s.Req)
+		success, err := handler.(videoproto2.VideoService).GetVideosByUserId(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -182,7 +182,7 @@ func newGetVideosByUserIdResult() interface{} {
 }
 
 type GetVideosByUserIdArgs struct {
-	Req *videoproto.GetVideosByUserIdReq
+	Req *videoproto2.GetVideosByUserIdReq
 }
 
 func (p *GetVideosByUserIdArgs) Marshal(out []byte) ([]byte, error) {
@@ -193,7 +193,7 @@ func (p *GetVideosByUserIdArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *GetVideosByUserIdArgs) Unmarshal(in []byte) error {
-	msg := new(videoproto.GetVideosByUserIdReq)
+	msg := new(videoproto2.GetVideosByUserIdReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -201,9 +201,9 @@ func (p *GetVideosByUserIdArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var GetVideosByUserIdArgs_Req_DEFAULT *videoproto.GetVideosByUserIdReq
+var GetVideosByUserIdArgs_Req_DEFAULT *videoproto2.GetVideosByUserIdReq
 
-func (p *GetVideosByUserIdArgs) GetReq() *videoproto.GetVideosByUserIdReq {
+func (p *GetVideosByUserIdArgs) GetReq() *videoproto2.GetVideosByUserIdReq {
 	if !p.IsSetReq() {
 		return GetVideosByUserIdArgs_Req_DEFAULT
 	}
@@ -215,10 +215,10 @@ func (p *GetVideosByUserIdArgs) IsSetReq() bool {
 }
 
 type GetVideosByUserIdResult struct {
-	Success *videoproto.GetVideosByUserIdResp
+	Success *videoproto2.GetVideosByUserIdResp
 }
 
-var GetVideosByUserIdResult_Success_DEFAULT *videoproto.GetVideosByUserIdResp
+var GetVideosByUserIdResult_Success_DEFAULT *videoproto2.GetVideosByUserIdResp
 
 func (p *GetVideosByUserIdResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -228,7 +228,7 @@ func (p *GetVideosByUserIdResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *GetVideosByUserIdResult) Unmarshal(in []byte) error {
-	msg := new(videoproto.GetVideosByUserIdResp)
+	msg := new(videoproto2.GetVideosByUserIdResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -236,7 +236,7 @@ func (p *GetVideosByUserIdResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *GetVideosByUserIdResult) GetSuccess() *videoproto.GetVideosByUserIdResp {
+func (p *GetVideosByUserIdResult) GetSuccess() *videoproto2.GetVideosByUserIdResp {
 	if !p.IsSetSuccess() {
 		return GetVideosByUserIdResult_Success_DEFAULT
 	}
@@ -244,7 +244,7 @@ func (p *GetVideosByUserIdResult) GetSuccess() *videoproto.GetVideosByUserIdResp
 }
 
 func (p *GetVideosByUserIdResult) SetSuccess(x interface{}) {
-	p.Success = x.(*videoproto.GetVideosByUserIdResp)
+	p.Success = x.(*videoproto2.GetVideosByUserIdResp)
 }
 
 func (p *GetVideosByUserIdResult) IsSetSuccess() bool {
@@ -255,11 +255,11 @@ func getVideosByTimeHandler(ctx context.Context, handler interface{}, arg, resul
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(videoproto.GetVideosByTimeReq)
+		req := new(videoproto2.GetVideosByTimeReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(videoproto.VideoService).GetVideosByTime(ctx, req)
+		resp, err := handler.(videoproto2.VideoService).GetVideosByTime(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -267,7 +267,7 @@ func getVideosByTimeHandler(ctx context.Context, handler interface{}, arg, resul
 			return err
 		}
 	case *GetVideosByTimeArgs:
-		success, err := handler.(videoproto.VideoService).GetVideosByTime(ctx, s.Req)
+		success, err := handler.(videoproto2.VideoService).GetVideosByTime(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -285,7 +285,7 @@ func newGetVideosByTimeResult() interface{} {
 }
 
 type GetVideosByTimeArgs struct {
-	Req *videoproto.GetVideosByTimeReq
+	Req *videoproto2.GetVideosByTimeReq
 }
 
 func (p *GetVideosByTimeArgs) Marshal(out []byte) ([]byte, error) {
@@ -296,7 +296,7 @@ func (p *GetVideosByTimeArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *GetVideosByTimeArgs) Unmarshal(in []byte) error {
-	msg := new(videoproto.GetVideosByTimeReq)
+	msg := new(videoproto2.GetVideosByTimeReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -304,9 +304,9 @@ func (p *GetVideosByTimeArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var GetVideosByTimeArgs_Req_DEFAULT *videoproto.GetVideosByTimeReq
+var GetVideosByTimeArgs_Req_DEFAULT *videoproto2.GetVideosByTimeReq
 
-func (p *GetVideosByTimeArgs) GetReq() *videoproto.GetVideosByTimeReq {
+func (p *GetVideosByTimeArgs) GetReq() *videoproto2.GetVideosByTimeReq {
 	if !p.IsSetReq() {
 		return GetVideosByTimeArgs_Req_DEFAULT
 	}
@@ -318,10 +318,10 @@ func (p *GetVideosByTimeArgs) IsSetReq() bool {
 }
 
 type GetVideosByTimeResult struct {
-	Success *videoproto.GetVideosByTimeResp
+	Success *videoproto2.GetVideosByTimeResp
 }
 
-var GetVideosByTimeResult_Success_DEFAULT *videoproto.GetVideosByTimeResp
+var GetVideosByTimeResult_Success_DEFAULT *videoproto2.GetVideosByTimeResp
 
 func (p *GetVideosByTimeResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -331,7 +331,7 @@ func (p *GetVideosByTimeResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *GetVideosByTimeResult) Unmarshal(in []byte) error {
-	msg := new(videoproto.GetVideosByTimeResp)
+	msg := new(videoproto2.GetVideosByTimeResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -339,7 +339,7 @@ func (p *GetVideosByTimeResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *GetVideosByTimeResult) GetSuccess() *videoproto.GetVideosByTimeResp {
+func (p *GetVideosByTimeResult) GetSuccess() *videoproto2.GetVideosByTimeResp {
 	if !p.IsSetSuccess() {
 		return GetVideosByTimeResult_Success_DEFAULT
 	}
@@ -347,7 +347,7 @@ func (p *GetVideosByTimeResult) GetSuccess() *videoproto.GetVideosByTimeResp {
 }
 
 func (p *GetVideosByTimeResult) SetSuccess(x interface{}) {
-	p.Success = x.(*videoproto.GetVideosByTimeResp)
+	p.Success = x.(*videoproto2.GetVideosByTimeResp)
 }
 
 func (p *GetVideosByTimeResult) IsSetSuccess() bool {
@@ -358,11 +358,11 @@ func likeVideoHandler(ctx context.Context, handler interface{}, arg, result inte
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(videoproto.LikeVideoReq)
+		req := new(videoproto2.LikeVideoReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(videoproto.VideoService).LikeVideo(ctx, req)
+		resp, err := handler.(videoproto2.VideoService).LikeVideo(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -370,7 +370,7 @@ func likeVideoHandler(ctx context.Context, handler interface{}, arg, result inte
 			return err
 		}
 	case *LikeVideoArgs:
-		success, err := handler.(videoproto.VideoService).LikeVideo(ctx, s.Req)
+		success, err := handler.(videoproto2.VideoService).LikeVideo(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -388,7 +388,7 @@ func newLikeVideoResult() interface{} {
 }
 
 type LikeVideoArgs struct {
-	Req *videoproto.LikeVideoReq
+	Req *videoproto2.LikeVideoReq
 }
 
 func (p *LikeVideoArgs) Marshal(out []byte) ([]byte, error) {
@@ -399,7 +399,7 @@ func (p *LikeVideoArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *LikeVideoArgs) Unmarshal(in []byte) error {
-	msg := new(videoproto.LikeVideoReq)
+	msg := new(videoproto2.LikeVideoReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -407,9 +407,9 @@ func (p *LikeVideoArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var LikeVideoArgs_Req_DEFAULT *videoproto.LikeVideoReq
+var LikeVideoArgs_Req_DEFAULT *videoproto2.LikeVideoReq
 
-func (p *LikeVideoArgs) GetReq() *videoproto.LikeVideoReq {
+func (p *LikeVideoArgs) GetReq() *videoproto2.LikeVideoReq {
 	if !p.IsSetReq() {
 		return LikeVideoArgs_Req_DEFAULT
 	}
@@ -421,10 +421,10 @@ func (p *LikeVideoArgs) IsSetReq() bool {
 }
 
 type LikeVideoResult struct {
-	Success *videoproto.LikeVideoResp
+	Success *videoproto2.LikeVideoResp
 }
 
-var LikeVideoResult_Success_DEFAULT *videoproto.LikeVideoResp
+var LikeVideoResult_Success_DEFAULT *videoproto2.LikeVideoResp
 
 func (p *LikeVideoResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -434,7 +434,7 @@ func (p *LikeVideoResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *LikeVideoResult) Unmarshal(in []byte) error {
-	msg := new(videoproto.LikeVideoResp)
+	msg := new(videoproto2.LikeVideoResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -442,7 +442,7 @@ func (p *LikeVideoResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *LikeVideoResult) GetSuccess() *videoproto.LikeVideoResp {
+func (p *LikeVideoResult) GetSuccess() *videoproto2.LikeVideoResp {
 	if !p.IsSetSuccess() {
 		return LikeVideoResult_Success_DEFAULT
 	}
@@ -450,7 +450,7 @@ func (p *LikeVideoResult) GetSuccess() *videoproto.LikeVideoResp {
 }
 
 func (p *LikeVideoResult) SetSuccess(x interface{}) {
-	p.Success = x.(*videoproto.LikeVideoResp)
+	p.Success = x.(*videoproto2.LikeVideoResp)
 }
 
 func (p *LikeVideoResult) IsSetSuccess() bool {
@@ -461,11 +461,11 @@ func unLikeVideoHandler(ctx context.Context, handler interface{}, arg, result in
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(videoproto.UnLikeVideoReq)
+		req := new(videoproto2.UnLikeVideoReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(videoproto.VideoService).UnLikeVideo(ctx, req)
+		resp, err := handler.(videoproto2.VideoService).UnLikeVideo(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -473,7 +473,7 @@ func unLikeVideoHandler(ctx context.Context, handler interface{}, arg, result in
 			return err
 		}
 	case *UnLikeVideoArgs:
-		success, err := handler.(videoproto.VideoService).UnLikeVideo(ctx, s.Req)
+		success, err := handler.(videoproto2.VideoService).UnLikeVideo(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -491,7 +491,7 @@ func newUnLikeVideoResult() interface{} {
 }
 
 type UnLikeVideoArgs struct {
-	Req *videoproto.UnLikeVideoReq
+	Req *videoproto2.UnLikeVideoReq
 }
 
 func (p *UnLikeVideoArgs) Marshal(out []byte) ([]byte, error) {
@@ -502,7 +502,7 @@ func (p *UnLikeVideoArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *UnLikeVideoArgs) Unmarshal(in []byte) error {
-	msg := new(videoproto.UnLikeVideoReq)
+	msg := new(videoproto2.UnLikeVideoReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -510,9 +510,9 @@ func (p *UnLikeVideoArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var UnLikeVideoArgs_Req_DEFAULT *videoproto.UnLikeVideoReq
+var UnLikeVideoArgs_Req_DEFAULT *videoproto2.UnLikeVideoReq
 
-func (p *UnLikeVideoArgs) GetReq() *videoproto.UnLikeVideoReq {
+func (p *UnLikeVideoArgs) GetReq() *videoproto2.UnLikeVideoReq {
 	if !p.IsSetReq() {
 		return UnLikeVideoArgs_Req_DEFAULT
 	}
@@ -524,10 +524,10 @@ func (p *UnLikeVideoArgs) IsSetReq() bool {
 }
 
 type UnLikeVideoResult struct {
-	Success *videoproto.UnLikeVideoResp
+	Success *videoproto2.UnLikeVideoResp
 }
 
-var UnLikeVideoResult_Success_DEFAULT *videoproto.UnLikeVideoResp
+var UnLikeVideoResult_Success_DEFAULT *videoproto2.UnLikeVideoResp
 
 func (p *UnLikeVideoResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -537,7 +537,7 @@ func (p *UnLikeVideoResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *UnLikeVideoResult) Unmarshal(in []byte) error {
-	msg := new(videoproto.UnLikeVideoResp)
+	msg := new(videoproto2.UnLikeVideoResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -545,7 +545,7 @@ func (p *UnLikeVideoResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *UnLikeVideoResult) GetSuccess() *videoproto.UnLikeVideoResp {
+func (p *UnLikeVideoResult) GetSuccess() *videoproto2.UnLikeVideoResp {
 	if !p.IsSetSuccess() {
 		return UnLikeVideoResult_Success_DEFAULT
 	}
@@ -553,7 +553,7 @@ func (p *UnLikeVideoResult) GetSuccess() *videoproto.UnLikeVideoResp {
 }
 
 func (p *UnLikeVideoResult) SetSuccess(x interface{}) {
-	p.Success = x.(*videoproto.UnLikeVideoResp)
+	p.Success = x.(*videoproto2.UnLikeVideoResp)
 }
 
 func (p *UnLikeVideoResult) IsSetSuccess() bool {
@@ -564,11 +564,11 @@ func createCommentHandler(ctx context.Context, handler interface{}, arg, result 
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(videoproto.CreateCommentReq)
+		req := new(videoproto2.CreateCommentReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(videoproto.VideoService).CreateComment(ctx, req)
+		resp, err := handler.(videoproto2.VideoService).CreateComment(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -576,7 +576,7 @@ func createCommentHandler(ctx context.Context, handler interface{}, arg, result 
 			return err
 		}
 	case *CreateCommentArgs:
-		success, err := handler.(videoproto.VideoService).CreateComment(ctx, s.Req)
+		success, err := handler.(videoproto2.VideoService).CreateComment(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -594,7 +594,7 @@ func newCreateCommentResult() interface{} {
 }
 
 type CreateCommentArgs struct {
-	Req *videoproto.CreateCommentReq
+	Req *videoproto2.CreateCommentReq
 }
 
 func (p *CreateCommentArgs) Marshal(out []byte) ([]byte, error) {
@@ -605,7 +605,7 @@ func (p *CreateCommentArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *CreateCommentArgs) Unmarshal(in []byte) error {
-	msg := new(videoproto.CreateCommentReq)
+	msg := new(videoproto2.CreateCommentReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -613,9 +613,9 @@ func (p *CreateCommentArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var CreateCommentArgs_Req_DEFAULT *videoproto.CreateCommentReq
+var CreateCommentArgs_Req_DEFAULT *videoproto2.CreateCommentReq
 
-func (p *CreateCommentArgs) GetReq() *videoproto.CreateCommentReq {
+func (p *CreateCommentArgs) GetReq() *videoproto2.CreateCommentReq {
 	if !p.IsSetReq() {
 		return CreateCommentArgs_Req_DEFAULT
 	}
@@ -627,10 +627,10 @@ func (p *CreateCommentArgs) IsSetReq() bool {
 }
 
 type CreateCommentResult struct {
-	Success *videoproto.CreateCommentResp
+	Success *videoproto2.CreateCommentResp
 }
 
-var CreateCommentResult_Success_DEFAULT *videoproto.CreateCommentResp
+var CreateCommentResult_Success_DEFAULT *videoproto2.CreateCommentResp
 
 func (p *CreateCommentResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -640,7 +640,7 @@ func (p *CreateCommentResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *CreateCommentResult) Unmarshal(in []byte) error {
-	msg := new(videoproto.CreateCommentResp)
+	msg := new(videoproto2.CreateCommentResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -648,7 +648,7 @@ func (p *CreateCommentResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *CreateCommentResult) GetSuccess() *videoproto.CreateCommentResp {
+func (p *CreateCommentResult) GetSuccess() *videoproto2.CreateCommentResp {
 	if !p.IsSetSuccess() {
 		return CreateCommentResult_Success_DEFAULT
 	}
@@ -656,7 +656,7 @@ func (p *CreateCommentResult) GetSuccess() *videoproto.CreateCommentResp {
 }
 
 func (p *CreateCommentResult) SetSuccess(x interface{}) {
-	p.Success = x.(*videoproto.CreateCommentResp)
+	p.Success = x.(*videoproto2.CreateCommentResp)
 }
 
 func (p *CreateCommentResult) IsSetSuccess() bool {
@@ -667,11 +667,11 @@ func deleteCommentHandler(ctx context.Context, handler interface{}, arg, result 
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(videoproto.DeleteCommentReq)
+		req := new(videoproto2.DeleteCommentReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(videoproto.VideoService).DeleteComment(ctx, req)
+		resp, err := handler.(videoproto2.VideoService).DeleteComment(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -679,7 +679,7 @@ func deleteCommentHandler(ctx context.Context, handler interface{}, arg, result 
 			return err
 		}
 	case *DeleteCommentArgs:
-		success, err := handler.(videoproto.VideoService).DeleteComment(ctx, s.Req)
+		success, err := handler.(videoproto2.VideoService).DeleteComment(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -697,7 +697,7 @@ func newDeleteCommentResult() interface{} {
 }
 
 type DeleteCommentArgs struct {
-	Req *videoproto.DeleteCommentReq
+	Req *videoproto2.DeleteCommentReq
 }
 
 func (p *DeleteCommentArgs) Marshal(out []byte) ([]byte, error) {
@@ -708,7 +708,7 @@ func (p *DeleteCommentArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *DeleteCommentArgs) Unmarshal(in []byte) error {
-	msg := new(videoproto.DeleteCommentReq)
+	msg := new(videoproto2.DeleteCommentReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -716,9 +716,9 @@ func (p *DeleteCommentArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var DeleteCommentArgs_Req_DEFAULT *videoproto.DeleteCommentReq
+var DeleteCommentArgs_Req_DEFAULT *videoproto2.DeleteCommentReq
 
-func (p *DeleteCommentArgs) GetReq() *videoproto.DeleteCommentReq {
+func (p *DeleteCommentArgs) GetReq() *videoproto2.DeleteCommentReq {
 	if !p.IsSetReq() {
 		return DeleteCommentArgs_Req_DEFAULT
 	}
@@ -730,10 +730,10 @@ func (p *DeleteCommentArgs) IsSetReq() bool {
 }
 
 type DeleteCommentResult struct {
-	Success *videoproto.DeleteCommentResp
+	Success *videoproto2.DeleteCommentResp
 }
 
-var DeleteCommentResult_Success_DEFAULT *videoproto.DeleteCommentResp
+var DeleteCommentResult_Success_DEFAULT *videoproto2.DeleteCommentResp
 
 func (p *DeleteCommentResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -743,7 +743,7 @@ func (p *DeleteCommentResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *DeleteCommentResult) Unmarshal(in []byte) error {
-	msg := new(videoproto.DeleteCommentResp)
+	msg := new(videoproto2.DeleteCommentResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -751,7 +751,7 @@ func (p *DeleteCommentResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *DeleteCommentResult) GetSuccess() *videoproto.DeleteCommentResp {
+func (p *DeleteCommentResult) GetSuccess() *videoproto2.DeleteCommentResp {
 	if !p.IsSetSuccess() {
 		return DeleteCommentResult_Success_DEFAULT
 	}
@@ -759,7 +759,7 @@ func (p *DeleteCommentResult) GetSuccess() *videoproto.DeleteCommentResp {
 }
 
 func (p *DeleteCommentResult) SetSuccess(x interface{}) {
-	p.Success = x.(*videoproto.DeleteCommentResp)
+	p.Success = x.(*videoproto2.DeleteCommentResp)
 }
 
 func (p *DeleteCommentResult) IsSetSuccess() bool {
@@ -770,11 +770,11 @@ func getCommentsHandler(ctx context.Context, handler interface{}, arg, result in
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(videoproto.GetCommentsReq)
+		req := new(videoproto2.GetCommentsReq)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(videoproto.VideoService).GetComments(ctx, req)
+		resp, err := handler.(videoproto2.VideoService).GetComments(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -782,7 +782,7 @@ func getCommentsHandler(ctx context.Context, handler interface{}, arg, result in
 			return err
 		}
 	case *GetCommentsArgs:
-		success, err := handler.(videoproto.VideoService).GetComments(ctx, s.Req)
+		success, err := handler.(videoproto2.VideoService).GetComments(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -800,7 +800,7 @@ func newGetCommentsResult() interface{} {
 }
 
 type GetCommentsArgs struct {
-	Req *videoproto.GetCommentsReq
+	Req *videoproto2.GetCommentsReq
 }
 
 func (p *GetCommentsArgs) Marshal(out []byte) ([]byte, error) {
@@ -811,7 +811,7 @@ func (p *GetCommentsArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *GetCommentsArgs) Unmarshal(in []byte) error {
-	msg := new(videoproto.GetCommentsReq)
+	msg := new(videoproto2.GetCommentsReq)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -819,9 +819,9 @@ func (p *GetCommentsArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var GetCommentsArgs_Req_DEFAULT *videoproto.GetCommentsReq
+var GetCommentsArgs_Req_DEFAULT *videoproto2.GetCommentsReq
 
-func (p *GetCommentsArgs) GetReq() *videoproto.GetCommentsReq {
+func (p *GetCommentsArgs) GetReq() *videoproto2.GetCommentsReq {
 	if !p.IsSetReq() {
 		return GetCommentsArgs_Req_DEFAULT
 	}
@@ -833,10 +833,10 @@ func (p *GetCommentsArgs) IsSetReq() bool {
 }
 
 type GetCommentsResult struct {
-	Success *videoproto.GetCommentsResp
+	Success *videoproto2.GetCommentsResp
 }
 
-var GetCommentsResult_Success_DEFAULT *videoproto.GetCommentsResp
+var GetCommentsResult_Success_DEFAULT *videoproto2.GetCommentsResp
 
 func (p *GetCommentsResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
@@ -846,7 +846,7 @@ func (p *GetCommentsResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *GetCommentsResult) Unmarshal(in []byte) error {
-	msg := new(videoproto.GetCommentsResp)
+	msg := new(videoproto2.GetCommentsResp)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -854,7 +854,7 @@ func (p *GetCommentsResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *GetCommentsResult) GetSuccess() *videoproto.GetCommentsResp {
+func (p *GetCommentsResult) GetSuccess() *videoproto2.GetCommentsResp {
 	if !p.IsSetSuccess() {
 		return GetCommentsResult_Success_DEFAULT
 	}
@@ -862,7 +862,7 @@ func (p *GetCommentsResult) GetSuccess() *videoproto.GetCommentsResp {
 }
 
 func (p *GetCommentsResult) SetSuccess(x interface{}) {
-	p.Success = x.(*videoproto.GetCommentsResp)
+	p.Success = x.(*videoproto2.GetCommentsResp)
 }
 
 func (p *GetCommentsResult) IsSetSuccess() bool {
@@ -879,7 +879,7 @@ func newServiceClient(c client.Client) *kClient {
 	}
 }
 
-func (p *kClient) CreateVideo(ctx context.Context, Req *videoproto.CreateVideoReq) (r *videoproto.CreateVideoResp, err error) {
+func (p *kClient) CreateVideo(ctx context.Context, Req *videoproto2.CreateVideoReq) (r *videoproto2.CreateVideoResp, err error) {
 	var _args CreateVideoArgs
 	_args.Req = Req
 	var _result CreateVideoResult
@@ -889,7 +889,7 @@ func (p *kClient) CreateVideo(ctx context.Context, Req *videoproto.CreateVideoRe
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) GetVideosByUserId(ctx context.Context, Req *videoproto.GetVideosByUserIdReq) (r *videoproto.GetVideosByUserIdResp, err error) {
+func (p *kClient) GetVideosByUserId(ctx context.Context, Req *videoproto2.GetVideosByUserIdReq) (r *videoproto2.GetVideosByUserIdResp, err error) {
 	var _args GetVideosByUserIdArgs
 	_args.Req = Req
 	var _result GetVideosByUserIdResult
@@ -899,7 +899,7 @@ func (p *kClient) GetVideosByUserId(ctx context.Context, Req *videoproto.GetVide
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) GetVideosByTime(ctx context.Context, Req *videoproto.GetVideosByTimeReq) (r *videoproto.GetVideosByTimeResp, err error) {
+func (p *kClient) GetVideosByTime(ctx context.Context, Req *videoproto2.GetVideosByTimeReq) (r *videoproto2.GetVideosByTimeResp, err error) {
 	var _args GetVideosByTimeArgs
 	_args.Req = Req
 	var _result GetVideosByTimeResult
@@ -909,7 +909,7 @@ func (p *kClient) GetVideosByTime(ctx context.Context, Req *videoproto.GetVideos
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) LikeVideo(ctx context.Context, Req *videoproto.LikeVideoReq) (r *videoproto.LikeVideoResp, err error) {
+func (p *kClient) LikeVideo(ctx context.Context, Req *videoproto2.LikeVideoReq) (r *videoproto2.LikeVideoResp, err error) {
 	var _args LikeVideoArgs
 	_args.Req = Req
 	var _result LikeVideoResult
@@ -919,7 +919,7 @@ func (p *kClient) LikeVideo(ctx context.Context, Req *videoproto.LikeVideoReq) (
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) UnLikeVideo(ctx context.Context, Req *videoproto.UnLikeVideoReq) (r *videoproto.UnLikeVideoResp, err error) {
+func (p *kClient) UnLikeVideo(ctx context.Context, Req *videoproto2.UnLikeVideoReq) (r *videoproto2.UnLikeVideoResp, err error) {
 	var _args UnLikeVideoArgs
 	_args.Req = Req
 	var _result UnLikeVideoResult
@@ -929,7 +929,7 @@ func (p *kClient) UnLikeVideo(ctx context.Context, Req *videoproto.UnLikeVideoRe
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) CreateComment(ctx context.Context, Req *videoproto.CreateCommentReq) (r *videoproto.CreateCommentResp, err error) {
+func (p *kClient) CreateComment(ctx context.Context, Req *videoproto2.CreateCommentReq) (r *videoproto2.CreateCommentResp, err error) {
 	var _args CreateCommentArgs
 	_args.Req = Req
 	var _result CreateCommentResult
@@ -939,7 +939,7 @@ func (p *kClient) CreateComment(ctx context.Context, Req *videoproto.CreateComme
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) DeleteComment(ctx context.Context, Req *videoproto.DeleteCommentReq) (r *videoproto.DeleteCommentResp, err error) {
+func (p *kClient) DeleteComment(ctx context.Context, Req *videoproto2.DeleteCommentReq) (r *videoproto2.DeleteCommentResp, err error) {
 	var _args DeleteCommentArgs
 	_args.Req = Req
 	var _result DeleteCommentResult
@@ -949,7 +949,7 @@ func (p *kClient) DeleteComment(ctx context.Context, Req *videoproto.DeleteComme
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) GetComments(ctx context.Context, Req *videoproto.GetCommentsReq) (r *videoproto.GetCommentsResp, err error) {
+func (p *kClient) GetComments(ctx context.Context, Req *videoproto2.GetCommentsReq) (r *videoproto2.GetCommentsResp, err error) {
 	var _args GetCommentsArgs
 	_args.Req = Req
 	var _result GetCommentsResult
