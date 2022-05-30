@@ -18,7 +18,7 @@ message BaseResp {
 }
 message UserInfo {
     int64 user_id = 1;
-    int64 username = 2;
+    string username = 2;
     int64 follow_count = 3;
     int64 follower_count = 4;
     bool is_follow = 5; // 默认false
