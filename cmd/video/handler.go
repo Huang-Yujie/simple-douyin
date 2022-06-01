@@ -38,6 +38,12 @@ func (s *VideoServiceImpl) UnLikeVideo(ctx context.Context, req *videoproto.UnLi
 	return
 }
 
+// GetLikeVideos implements the VideoServiceImpl interface.
+func (s *VideoServiceImpl) GetLikeVideos(ctx context.Context, req *videoproto.GetLikeVideosReq) (resp *videoproto.GetLikeVideosResp, err error) {
+	// TODO: Your code here...
+	return
+}
+
 // CreateComment implements the VideoServiceImpl interface.
 func (s *VideoServiceImpl) CreateComment(ctx context.Context, req *videoproto.CreateCommentReq) (resp *videoproto.CreateCommentResp, err error) {
 	// TODO: Your code here...

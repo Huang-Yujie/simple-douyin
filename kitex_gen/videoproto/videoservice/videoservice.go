@@ -27,6 +27,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 		"GetVideosByTime":   kitex.NewMethodInfo(getVideosByTimeHandler, newGetVideosByTimeArgs, newGetVideosByTimeResult, false),
 		"LikeVideo":         kitex.NewMethodInfo(likeVideoHandler, newLikeVideoArgs, newLikeVideoResult, false),
 		"UnLikeVideo":       kitex.NewMethodInfo(unLikeVideoHandler, newUnLikeVideoArgs, newUnLikeVideoResult, false),
+		"GetLikeVideos":     kitex.NewMethodInfo(getLikeVideosHandler, newGetLikeVideosArgs, newGetLikeVideosResult, false),
 		"CreateComment":     kitex.NewMethodInfo(createCommentHandler, newCreateCommentArgs, newCreateCommentResult, false),
 		"DeleteComment":     kitex.NewMethodInfo(deleteCommentHandler, newDeleteCommentArgs, newDeleteCommentResult, false),
 		"GetComments":       kitex.NewMethodInfo(getCommentsHandler, newGetCommentsArgs, newGetCommentsResult, false),
@@ -560,6 +561,109 @@ func (p *UnLikeVideoResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
+func getLikeVideosHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(videoproto.GetLikeVideosReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(videoproto.VideoService).GetLikeVideos(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *GetLikeVideosArgs:
+		success, err := handler.(videoproto.VideoService).GetLikeVideos(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*GetLikeVideosResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newGetLikeVideosArgs() interface{} {
+	return &GetLikeVideosArgs{}
+}
+
+func newGetLikeVideosResult() interface{} {
+	return &GetLikeVideosResult{}
+}
+
+type GetLikeVideosArgs struct {
+	Req *videoproto.GetLikeVideosReq
+}
+
+func (p *GetLikeVideosArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in GetLikeVideosArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *GetLikeVideosArgs) Unmarshal(in []byte) error {
+	msg := new(videoproto.GetLikeVideosReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var GetLikeVideosArgs_Req_DEFAULT *videoproto.GetLikeVideosReq
+
+func (p *GetLikeVideosArgs) GetReq() *videoproto.GetLikeVideosReq {
+	if !p.IsSetReq() {
+		return GetLikeVideosArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *GetLikeVideosArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type GetLikeVideosResult struct {
+	Success *videoproto.GetLikeVideosResp
+}
+
+var GetLikeVideosResult_Success_DEFAULT *videoproto.GetLikeVideosResp
+
+func (p *GetLikeVideosResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in GetLikeVideosResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *GetLikeVideosResult) Unmarshal(in []byte) error {
+	msg := new(videoproto.GetLikeVideosResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *GetLikeVideosResult) GetSuccess() *videoproto.GetLikeVideosResp {
+	if !p.IsSetSuccess() {
+		return GetLikeVideosResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *GetLikeVideosResult) SetSuccess(x interface{}) {
+	p.Success = x.(*videoproto.GetLikeVideosResp)
+}
+
+func (p *GetLikeVideosResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
 func createCommentHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	switch s := arg.(type) {
 	case *streaming.Args:
@@ -924,6 +1028,16 @@ func (p *kClient) UnLikeVideo(ctx context.Context, Req *videoproto.UnLikeVideoRe
 	_args.Req = Req
 	var _result UnLikeVideoResult
 	if err = p.c.Call(ctx, "UnLikeVideo", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetLikeVideos(ctx context.Context, Req *videoproto.GetLikeVideosReq) (r *videoproto.GetLikeVideosResp, err error) {
+	var _args GetLikeVideosArgs
+	_args.Req = Req
+	var _result GetLikeVideosResult
+	if err = p.c.Call(ctx, "GetLikeVideos", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

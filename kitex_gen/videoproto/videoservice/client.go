@@ -16,6 +16,7 @@ type Client interface {
 	GetVideosByTime(ctx context.Context, Req *videoproto.GetVideosByTimeReq, callOptions ...callopt.Option) (r *videoproto.GetVideosByTimeResp, err error)
 	LikeVideo(ctx context.Context, Req *videoproto.LikeVideoReq, callOptions ...callopt.Option) (r *videoproto.LikeVideoResp, err error)
 	UnLikeVideo(ctx context.Context, Req *videoproto.UnLikeVideoReq, callOptions ...callopt.Option) (r *videoproto.UnLikeVideoResp, err error)
+	GetLikeVideos(ctx context.Context, Req *videoproto.GetLikeVideosReq, callOptions ...callopt.Option) (r *videoproto.GetLikeVideosResp, err error)
 	CreateComment(ctx context.Context, Req *videoproto.CreateCommentReq, callOptions ...callopt.Option) (r *videoproto.CreateCommentResp, err error)
 	DeleteComment(ctx context.Context, Req *videoproto.DeleteCommentReq, callOptions ...callopt.Option) (r *videoproto.DeleteCommentResp, err error)
 	GetComments(ctx context.Context, Req *videoproto.GetCommentsReq, callOptions ...callopt.Option) (r *videoproto.GetCommentsResp, err error)
@@ -73,6 +74,11 @@ func (p *kVideoServiceClient) LikeVideo(ctx context.Context, Req *videoproto.Lik
 func (p *kVideoServiceClient) UnLikeVideo(ctx context.Context, Req *videoproto.UnLikeVideoReq, callOptions ...callopt.Option) (r *videoproto.UnLikeVideoResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UnLikeVideo(ctx, Req)
+}
+
+func (p *kVideoServiceClient) GetLikeVideos(ctx context.Context, Req *videoproto.GetLikeVideosReq, callOptions ...callopt.Option) (r *videoproto.GetLikeVideosResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetLikeVideos(ctx, Req)
 }
 
 func (p *kVideoServiceClient) CreateComment(ctx context.Context, Req *videoproto.CreateCommentReq, callOptions ...callopt.Option) (r *videoproto.CreateCommentResp, err error) {
