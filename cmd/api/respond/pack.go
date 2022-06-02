@@ -1,6 +1,7 @@
 package respond
 
 import (
+	"simple-douyin/cmd/api/cache"
 	"simple-douyin/kitex_gen/userproto"
 	"simple-douyin/kitex_gen/videoproto"
 )
@@ -24,26 +25,34 @@ func PackUsers(us []*userproto.UserInfo) []*User {
 	return users
 }
 
-func PackVideo(v *videoproto.VideoInfo, author *userproto.UserInfo) *Video {
+func PackVideo(v *videoproto.VideoInfo, author *userproto.UserInfo) (*Video, error) {
+	playURL, err := cache.GetPlayURL(v.VideoBaseInfo.PlayAddr)
+	if err != nil {
+		return nil, err
+	}
 	return &Video{
 		ID:           v.VideoId,
 		Author:       PackUser(author),
 		PlayAddr:     v.VideoBaseInfo.PlayAddr,
-		CoverAddr:    v.VideoBaseInfo.CoverAddr,
+		CoverAddr:    playURL,
 		LikeCount:    v.LikeCount,
 		CommentCount: v.CommentCount,
 		IsFavorite:   v.IsFavorite,
 		Title:        v.VideoBaseInfo.Title,
-	}
+	}, nil
 }
 
-func PackVideos(vs []*videoproto.VideoInfo, authors []*userproto.UserInfo) []*Video {
+func PackVideos(vs []*videoproto.VideoInfo, authors []*userproto.UserInfo) ([]*Video, error) {
 	n := len(vs)
 	videos := make([]*Video, n)
 	for i := 0; i < n; i++ {
-		videos[i] = PackVideo(vs[i], authors[i])
+		var err error
+		videos[i], err = PackVideo(vs[i], authors[i])
+		if err != nil {
+			return nil, err
+		}
 	}
-	return videos
+	return videos, nil
 }
 
 func PackComment(c *videoproto.CommentInfo, author *userproto.UserInfo) *Comment {

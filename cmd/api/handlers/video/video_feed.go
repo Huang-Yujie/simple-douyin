@@ -7,7 +7,7 @@ import (
 	"simple-douyin/cmd/api/rpc"
 	"simple-douyin/kitex_gen/userproto"
 	"simple-douyin/kitex_gen/videoproto"
-	"simple-douyin/pkg/constants"
+	"simple-douyin/pkg/config"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -25,7 +25,7 @@ func Feed(c *gin.Context) {
 	req := &videoproto.GetVideosByTimeReq{
 		AppUserId:  appUserID,
 		LatestTime: param.LatestTime,
-		Count:      constants.FeedCount,
+		Count:      config.Server.FeedCount,
 	}
 	videos, nextTime, err := rpc.GetVideosByTime(c, req)
 	if err != nil {
@@ -45,10 +45,14 @@ func Feed(c *gin.Context) {
 			return
 		}
 	}
+	packedVideos, err := respond.PackVideos(videos, authors)
+	if err != nil {
+		respond.Error(c, err)
+	}
 	resp := &respond.VideoFeedResp{
 		BaseResp:  respond.Success,
 		NextTime:  nextTime,
-		VideoList: respond.PackVideos(videos, authors),
+		VideoList: packedVideos,
 	}
 	respond.Send(c, resp)
 

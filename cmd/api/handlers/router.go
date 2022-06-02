@@ -4,16 +4,18 @@ import (
 	"simple-douyin/cmd/api/auth"
 	"simple-douyin/cmd/api/handlers/user"
 	"simple-douyin/cmd/api/handlers/video"
-	"simple-douyin/pkg/constants"
+	"simple-douyin/pkg/config"
 
 	"github.com/gin-gonic/gin"
 )
 
 func NewRouter() *gin.Engine {
 	r := gin.New()
-	if constants.DebugMode {
+	if config.Server.RunMode == "debug" {
 		r.Use(gin.Logger(), gin.Recovery())
 
+	} else {
+		gin.SetMode(gin.ReleaseMode)
 	}
 	unauthGroup := r.Group("/douyin")
 	{

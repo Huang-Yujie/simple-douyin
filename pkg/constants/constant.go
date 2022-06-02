@@ -16,18 +16,8 @@
 package constants
 
 const (
-	DebugMode                = true
-	NoteTableName            = "note"
-	UserTableName            = "user"
-	SecretKey                = "4631"
-	IdentityKey              = "id"
-	Total                    = "total"
-	ApiServiceName           = "api_service"
-	VideoServiceName         = "video_service"
-	UserServiceName          = "user_service"
-	MySQLDefaultDSN          = "gorm:gorm@tcp(localhost:9910)/gorm?charset=utf8&parseTime=True&loc=Local"
-	EtcdAddress              = "127.0.0.1:2379"
-	CPURateLimit     float64 = 80.0
-	DefaultLimit             = 10
-	FeedCount                = 5
+	IdentityKey      = "id"
+	ApiServiceName   = "api_service"
+	VideoServiceName = "video_service"
+	UserServiceName  = "user_service"
 )

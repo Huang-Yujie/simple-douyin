@@ -4,6 +4,7 @@ import (
 	"context"
 	"simple-douyin/kitex_gen/userproto"
 	"simple-douyin/kitex_gen/userproto/userservice"
+	"simple-douyin/pkg/config"
 	"simple-douyin/pkg/constants"
 	"simple-douyin/pkg/errno"
 	"simple-douyin/pkg/middleware"
@@ -18,7 +19,7 @@ import (
 var userClient userservice.Client
 
 func initUserRPC() {
-	r, err := etcd.NewEtcdResolver([]string{constants.EtcdAddress})
+	r, err := etcd.NewEtcdResolver([]string{config.Server.EtcdAddress})
 	if err != nil {
 		panic(err)
 	}

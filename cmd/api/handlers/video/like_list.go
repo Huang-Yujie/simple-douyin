@@ -40,9 +40,13 @@ func LikeList(c *gin.Context) {
 			return
 		}
 	}
+	packedVideos, err := respond.PackVideos(videos, authors)
+	if err != nil {
+		respond.Error(c, err)
+	}
 	resp := &respond.LikeListResp{
 		BaseResp:  respond.Success,
-		VideoList: respond.PackVideos(videos, authors),
+		VideoList: packedVideos,
 	}
 	respond.Send(c, resp)
 }

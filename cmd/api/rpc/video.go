@@ -4,6 +4,7 @@ import (
 	"context"
 	"simple-douyin/kitex_gen/videoproto"
 	"simple-douyin/kitex_gen/videoproto/videoservice"
+	"simple-douyin/pkg/config"
 	"simple-douyin/pkg/constants"
 	"simple-douyin/pkg/errno"
 	"simple-douyin/pkg/middleware"
@@ -18,7 +19,7 @@ import (
 var videoClient videoservice.Client
 
 func initVideoRPC() {
-	r, err := etcd.NewEtcdResolver([]string{constants.EtcdAddress})
+	r, err := etcd.NewEtcdResolver([]string{config.Server.EtcdAddress})
 	if err != nil {
 		panic(err)
 	}
