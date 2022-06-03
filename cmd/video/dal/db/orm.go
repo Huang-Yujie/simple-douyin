@@ -3,11 +3,10 @@ package db
 import (
 	"context"
 	"errors"
-	videoproto "simple-douyin/kitex_gen/videoproto"
+	"simple-douyin/kitex_gen/videoproto"
 	"strconv"
 	"time"
 )
-
 
 // CreateVideo create video info
 func CreateVideo(ctx context.Context, notes []*Video) error {
@@ -146,7 +145,7 @@ func GetComment(ctx context.Context, UserId int64, VideoId int64) ([]*videoproto
 			CommentId: int64(comments[i].CommentID),
 			UserId: int64(comments[i].UserID),
 			Content: comments[i].Content,
-			CreateDate: time.Unix(int64(comments[i].CreatedAt), 0).Format("2006-01-02 15:04:05"),
+			CreateDate: time.Unix(int64(comments[i].CreatedAt), 0).Format("2006-01-02 15:04:05")[5:10],
 		}
 	}
 
