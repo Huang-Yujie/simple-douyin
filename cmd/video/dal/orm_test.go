@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"simple-douyin/cmd/video/dal/model"
+	"simple-douyin/pkg/config"
 	"testing"
 	"time"
 
@@ -14,8 +15,10 @@ import (
 )
 
 func testInit() {
+	config.Init()
+	DSN := config.Database.DSN()
 	var err error
-	DB, err = gorm.Open(mysql.Open("root:root@tcp(localhost:3306)/douyin?charset=utf8&parseTime=True&loc=Local"),
+	DB, err = gorm.Open(mysql.Open(DSN),
 		&gorm.Config{
 			PrepareStmt:            true,
 			SkipDefaultTransaction: true,
@@ -165,5 +168,17 @@ func TestGetComment(t *testing.T) {
 
 	for i := 0; i < len(commentInfos); i++ {
 		fmt.Printf("%#v\n", *commentInfos[i])
+	}
+}
+
+func TestMGetLikeVideo(t *testing.T) {
+	testInit()
+	userId := int64(1)
+	videos, err := MGetLikeVideo(context.Background(), userId)
+	if err != nil {
+		panic(err)
+	}
+	for i := 0; i < len(videos); i++ {
+		fmt.Printf("%#v\n", *videos[i])
 	}
 }

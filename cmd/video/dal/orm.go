@@ -96,8 +96,15 @@ func UnLikeVideo(ctx context.Context, UserId int64, VideoId int64) error {
 }
 
 func MGetLikeVideo(ctx context.Context, userId int64) ([]*model.Video, error) {
-	//todo
-	return nil, nil
+	var videos []*model.Video
+	result := DB.WithContext(ctx).Where("user_id = ?", userId).Find(&videos)
+	if result.Error != nil {
+		return videos, result.Error
+	}
+	if len(videos) == 0 {
+		return videos, errors.New("可选取的视频为空")
+	}
+	return videos, nil
 }
 
 // CreateComment 新增评论,需要dal层返回评论详情
