@@ -6,18 +6,18 @@ import (
 	"context"
 	"github.com/cloudwego/kitex/client"
 	"github.com/cloudwego/kitex/client/callopt"
-	userproto2 "simple-douyin/kitex_gen/userproto"
+	"simple-douyin/kitex_gen/userproto"
 )
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	CreateUser(ctx context.Context, Req *userproto2.CreateUserReq, callOptions ...callopt.Option) (r *userproto2.CreateUserResp, err error)
-	GetUser(ctx context.Context, Req *userproto2.GetUserReq, callOptions ...callopt.Option) (r *userproto2.GetUserResp, err error)
-	CheckUser(ctx context.Context, Req *userproto2.CheckUserReq, callOptions ...callopt.Option) (r *userproto2.CheckUserResp, err error)
-	FollowUser(ctx context.Context, Req *userproto2.FollowUserReq, callOptions ...callopt.Option) (r *userproto2.FollowUserResp, err error)
-	UnFollowUser(ctx context.Context, Req *userproto2.UnFollowUserReq, callOptions ...callopt.Option) (r *userproto2.UnFollowUserResp, err error)
-	GetFollowList(ctx context.Context, Req *userproto2.GetFollowListReq, callOptions ...callopt.Option) (r *userproto2.GetFollowListResp, err error)
-	GetFanList(ctx context.Context, Req *userproto2.GetFanListReq, callOptions ...callopt.Option) (r *userproto2.GetFanListResp, err error)
+	CreateUser(ctx context.Context, Req *userproto.CreateUserReq, callOptions ...callopt.Option) (r *userproto.CreateUserResp, err error)
+	GetUser(ctx context.Context, Req *userproto.GetUserReq, callOptions ...callopt.Option) (r *userproto.GetUserResp, err error)
+	CheckUser(ctx context.Context, Req *userproto.CheckUserReq, callOptions ...callopt.Option) (r *userproto.CheckUserResp, err error)
+	FollowUser(ctx context.Context, Req *userproto.FollowUserReq, callOptions ...callopt.Option) (r *userproto.FollowUserResp, err error)
+	UnFollowUser(ctx context.Context, Req *userproto.UnFollowUserReq, callOptions ...callopt.Option) (r *userproto.UnFollowUserResp, err error)
+	GetFollowList(ctx context.Context, Req *userproto.GetFollowListReq, callOptions ...callopt.Option) (r *userproto.GetFollowListResp, err error)
+	GetFanList(ctx context.Context, Req *userproto.GetFanListReq, callOptions ...callopt.Option) (r *userproto.GetFanListResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -49,37 +49,37 @@ type kUserServiceClient struct {
 	*kClient
 }
 
-func (p *kUserServiceClient) CreateUser(ctx context.Context, Req *userproto2.CreateUserReq, callOptions ...callopt.Option) (r *userproto2.CreateUserResp, err error) {
+func (p *kUserServiceClient) CreateUser(ctx context.Context, Req *userproto.CreateUserReq, callOptions ...callopt.Option) (r *userproto.CreateUserResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.CreateUser(ctx, Req)
 }
 
-func (p *kUserServiceClient) GetUser(ctx context.Context, Req *userproto2.GetUserReq, callOptions ...callopt.Option) (r *userproto2.GetUserResp, err error) {
+func (p *kUserServiceClient) GetUser(ctx context.Context, Req *userproto.GetUserReq, callOptions ...callopt.Option) (r *userproto.GetUserResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetUser(ctx, Req)
 }
 
-func (p *kUserServiceClient) CheckUser(ctx context.Context, Req *userproto2.CheckUserReq, callOptions ...callopt.Option) (r *userproto2.CheckUserResp, err error) {
+func (p *kUserServiceClient) CheckUser(ctx context.Context, Req *userproto.CheckUserReq, callOptions ...callopt.Option) (r *userproto.CheckUserResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.CheckUser(ctx, Req)
 }
 
-func (p *kUserServiceClient) FollowUser(ctx context.Context, Req *userproto2.FollowUserReq, callOptions ...callopt.Option) (r *userproto2.FollowUserResp, err error) {
+func (p *kUserServiceClient) FollowUser(ctx context.Context, Req *userproto.FollowUserReq, callOptions ...callopt.Option) (r *userproto.FollowUserResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.FollowUser(ctx, Req)
 }
 
-func (p *kUserServiceClient) UnFollowUser(ctx context.Context, Req *userproto2.UnFollowUserReq, callOptions ...callopt.Option) (r *userproto2.UnFollowUserResp, err error) {
+func (p *kUserServiceClient) UnFollowUser(ctx context.Context, Req *userproto.UnFollowUserReq, callOptions ...callopt.Option) (r *userproto.UnFollowUserResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.UnFollowUser(ctx, Req)
 }
 
-func (p *kUserServiceClient) GetFollowList(ctx context.Context, Req *userproto2.GetFollowListReq, callOptions ...callopt.Option) (r *userproto2.GetFollowListResp, err error) {
+func (p *kUserServiceClient) GetFollowList(ctx context.Context, Req *userproto.GetFollowListReq, callOptions ...callopt.Option) (r *userproto.GetFollowListResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetFollowList(ctx, Req)
 }
 
-func (p *kUserServiceClient) GetFanList(ctx context.Context, Req *userproto2.GetFanListReq, callOptions ...callopt.Option) (r *userproto2.GetFanListResp, err error) {
+func (p *kUserServiceClient) GetFanList(ctx context.Context, Req *userproto.GetFanListReq, callOptions ...callopt.Option) (r *userproto.GetFanListResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetFanList(ctx, Req)
 }

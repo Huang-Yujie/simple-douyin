@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-RUN_NAME="video_service"
+RUN_NAME="VideoSevice"
 
 mkdir -p output/bin
 cp script/* output/

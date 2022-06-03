@@ -18,8 +18,8 @@ package bound
 import (
 	"context"
 	"fmt"
-	"github.com/cloudwego/kitex-examples/bizdemo/easy_note/pkg/constants"
-	"github.com/cloudwego/kitex-examples/bizdemo/easy_note/pkg/errno"
+	"simple-douyin/pkg/constants"
+	"simple-douyin/pkg/errno"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/remote"
 	"github.com/shirou/gopsutil/cpu"

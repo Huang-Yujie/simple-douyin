@@ -3,11 +3,11 @@ package videoservice
 
 import (
 	"github.com/cloudwego/kitex/server"
-	videoproto2 "simple-douyin/kitex_gen/videoproto"
+	"simple-douyin/kitex_gen/videoproto"
 )
 
 // NewServer creates a server.Server with the given handler and options.
-func NewServer(handler videoproto2.VideoService, opts ...server.Option) server.Server {
+func NewServer(handler videoproto.VideoService, opts ...server.Option) server.Server {
 	var options []server.Option
 
 	options = append(options, opts...)

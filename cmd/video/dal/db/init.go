@@ -9,7 +9,7 @@ import (
 var DB *gorm.DB
 
 const (
-	MYSQLDSN = "username:password@tcp(host:port)/douyin?charset=utf8mb4&parseTime=True&loc=Local"
+	MYSQLDSN = "root:nhk19980516@tcp(121.41.112.176:13306)/douyin?charset=utf8mb4&parseTime=True&loc=Local"
 )
 
 // init init DB
