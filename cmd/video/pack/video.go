@@ -1,12 +1,12 @@
 package pack
 
 import (
-	"simple-douyin/cmd/video/dal/db"
+	"simple-douyin/cmd/video/dal/model"
 	"simple-douyin/kitex_gen/videoproto"
 )
 
 // Video pack video info : video to videoproto.VideoInfo
-func Video(m *db.Video) *videoproto.VideoInfo {
+func Video(m *model.Video) *videoproto.VideoInfo {
 	if m == nil {
 		return nil
 	}
@@ -22,7 +22,7 @@ func Video(m *db.Video) *videoproto.VideoInfo {
 	}
 }
 
-func Videos(ms []*db.Video) []*videoproto.VideoInfo {
+func Videos(ms []*model.Video) []*videoproto.VideoInfo {
 	videos := make([]*videoproto.VideoInfo, 0)
 	for _, m := range ms {
 		if n := Video(m); n != nil {

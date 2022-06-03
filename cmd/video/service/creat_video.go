@@ -3,7 +3,8 @@ package service
 import (
 	"context"
 
-	"simple-douyin/cmd/video/dal/db"
+	"simple-douyin/cmd/video/dal"
+	"simple-douyin/cmd/video/dal/model"
 	"simple-douyin/kitex_gen/videoproto"
 )
 
@@ -11,7 +12,6 @@ type CreateVideoService struct {
 	ctx context.Context
 }
 
-//
 func NewCreateVideoService(ctx context.Context) *CreateVideoService {
 	return &CreateVideoService{ctx: ctx}
 }
@@ -24,14 +24,13 @@ func NewCreateVideoService(ctx context.Context) *CreateVideoService {
 // 	CoverUrl string `json:"cover_url"`
 // }
 
-//
 func (s *CreateVideoService) CreateVideo(req *videoproto.CreateVideoReq) error {
-	VideoModel := &db.Video{
+	video := &model.Video{
 		UserId:   uint(req.VideoBaseInfo.UserId),
 		Title:    req.VideoBaseInfo.Title,
 		PlayURL:  req.VideoBaseInfo.PlayAddr,
 		CoverURL: req.VideoBaseInfo.CoverAddr,
 	}
 	// 如果添加失败，返回error
-	return db.CreateVideo(s.ctx, []*db.Video{VideoModel})
+	return dal.CreateVideo(s.ctx, video)
 }

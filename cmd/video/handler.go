@@ -102,8 +102,19 @@ func (s *VideoServiceImpl) UnLikeVideo(ctx context.Context, req *videoproto.UnLi
 
 // GetLikeVideos implements the VideoServiceImpl interface.
 func (s *VideoServiceImpl) GetLikeVideos(ctx context.Context, req *videoproto.GetLikeVideosReq) (resp *videoproto.GetLikeVideosResp, err error) {
-	// TODO: Your code here...
-	return
+	resp = new(videoproto.GetLikeVideosResp)
+	if req.AppUserId < 0 || req.AppUserId != req.UserId {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+	videos, err := service.NewMGetLikeVideoService(ctx).MGetLikeVideo(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.VideoInfos = videos
+	return resp, nil
 }
 
 // CreateComment implements the VideoServiceImpl interface.

@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	"simple-douyin/cmd/video/dal/db"
+	"simple-douyin/cmd/video/dal"
 	"simple-douyin/cmd/video/pack"
 	"simple-douyin/kitex_gen/videoproto"
 )
@@ -12,14 +12,13 @@ type MGetVideoByTimeService struct {
 	ctx context.Context
 }
 
-//
 func NewMGetVideoByTimeService(ctx context.Context) *MGetVideoByTimeService {
 	return &MGetVideoByTimeService{ctx: ctx}
 }
 
 // 从DAO层获取视频基本信息，并查出点赞数、评论数、当前用户是否点赞，组装后返回
 func (s *MGetVideoByTimeService) MGetVideoByTime(req *videoproto.GetVideosByTimeReq) ([]*videoproto.VideoInfo, int64, error) {
-	videoModels, nextTime, err := db.MGetVideoByTime(s.ctx, req.LatestTime, req.Count)
+	videoModels, nextTime, err := dal.MGetVideoByTime(s.ctx, req.LatestTime, req.Count)
 	// 只能得到视频id，uid，title，play_url,cover_url,created_time
 	if err != nil {
 		return nil, 0, err
@@ -31,19 +30,19 @@ func (s *MGetVideoByTimeService) MGetVideoByTime(req *videoproto.GetVideosByTime
 	for i := 0; i < len(videos); i++ {
 		vid := videos[i].VideoId
 		uid := videos[i].VideoBaseInfo.UserId
-		likeCount, err := db.GetLikeCount(s.ctx, vid)
+		likeCount, err := dal.GetLikeCount(s.ctx, vid)
 		if err != nil {
 			return nil, 0, err
 		}
 		videos[i].LikeCount = likeCount
 
-		commentCount, err := db.GetCommentCount(s.ctx, vid)
+		commentCount, err := dal.GetCommentCount(s.ctx, vid)
 		if err != nil {
 			return nil, 0, err
 		}
 		videos[i].CommentCount = commentCount
 		if req.AppUserId != -1 { // 判断是否进行了登陆
-			isFavaorite, err := db.IsFavorite(s.ctx, vid, uid)
+			isFavaorite, err := dal.IsFavorite(s.ctx, vid, uid)
 			if err != nil {
 				return nil, 0, err
 			}

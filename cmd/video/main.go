@@ -1,6 +1,7 @@
 package main
 
 import (
+	"simple-douyin/cmd/video/dal"
 	videoproto "simple-douyin/kitex_gen/videoproto/videoservice"
 
 	"net"
@@ -20,6 +21,7 @@ import (
 
 func Init() {
 	config.Init()
+	dal.Init()
 	tracer2.InitJaeger(constants.VideoServiceName)
 }
 
@@ -29,7 +31,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	addr, err := net.ResolveTCPAddr("tcp", "127.0.0.1:8081")
+	addr, err := net.ResolveTCPAddr("tcp", config.Server.VideoServiceAddr)
 	if err != nil {
 		panic(err)
 	}

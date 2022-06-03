@@ -1,8 +1,10 @@
-package db
+package dal
 
 import (
+	"simple-douyin/cmd/user/dal/model"
 	"simple-douyin/pkg/config"
 
+	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	gormopentracing "gorm.io/plugin/opentracing"
@@ -20,12 +22,12 @@ func Init() {
 		},
 	)
 	if err != nil {
-		panic(err)
+		klog.Fatal(err)
 	}
 
 	if err = DB.Use(gormopentracing.New()); err != nil {
-		panic(err)
+		klog.Fatal(err)
 	}
 
-	DB.AutoMigrate(new(User), new(Video), new(Comment))
+	DB.AutoMigrate(new(model.User), new(model.Video), new(model.Comment))
 }

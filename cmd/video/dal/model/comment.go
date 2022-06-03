@@ -1,4 +1,4 @@
-package db
+package model
 
 type Comment struct {
 	CommentID uint `gorm:"primarykey"`
@@ -11,7 +11,3 @@ type Comment struct {
 func (f *Comment) TableName() string {
 	return "comment"
 }
-
-
-
-

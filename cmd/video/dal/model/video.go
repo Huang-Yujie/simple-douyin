@@ -1,7 +1,7 @@
-package db
+package model
 
 type Video struct {
-	VideoID   uint   `gorm:"primarykey"`
+	VideoID   uint `gorm:"primarykey"`
 	UserId    uint
 	Title     string `gorm:"not null"`
 	PlayURL   string `gorm:"not null"`
@@ -13,6 +13,3 @@ type Video struct {
 func (v *Video) TableName() string {
 	return "video"
 }
-
-
-

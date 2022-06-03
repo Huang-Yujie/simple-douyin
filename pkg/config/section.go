@@ -6,12 +6,14 @@ import (
 )
 
 type ServerConfig struct {
-	RunMode     string
-	HttpPort    string
-	RedisPort   string
-	Timeout     int
-	EtcdAddress string
-	FeedCount   int64
+	RunMode          string
+	HttpPort         string
+	RedisPort        string
+	UserServiceAddr  string
+	VideoServiceAddr string
+	Timeout          int
+	EtcdAddress      string
+	FeedCount        int64
 }
 
 type OSSConfig struct {
