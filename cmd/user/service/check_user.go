@@ -19,7 +19,7 @@ func NewCheckUserService(ctx context.Context) *CheckUserService {
 	return &CheckUserService{ctx: ctx}
 }
 
-func (s *CheckUserService) CheckUser(req *userproto.CheckUserReq) (int64, error)  {
+func (s *CheckUserService) CheckUser(req *userproto.CheckUserReq) (int64, error) {
 	h := md5.New()
 	if _, err := io.WriteString(h, req.UserAccount.Password); err != nil {
 		return 0, err

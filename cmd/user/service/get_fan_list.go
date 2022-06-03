@@ -10,11 +10,11 @@ type GetFanListService struct {
 	ctx context.Context
 }
 
-func NewGetFanListService(ctx context.Context) *GetFanListService  {
+func NewGetFanListService(ctx context.Context) *GetFanListService {
 	return &GetFanListService{ctx: ctx}
 }
 
-func (s *GetFanListService) GetFanList(req *userproto.GetFanListReq) ([]*userproto.UserInfo,error)  {
+func (s *GetFanListService) GetFanList(req *userproto.GetFanListReq) ([]*userproto.UserInfo, error) {
 	appUserId := req.AppUserId
 	//userId := req.UserId
 

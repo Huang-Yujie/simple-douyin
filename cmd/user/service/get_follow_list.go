@@ -10,7 +10,7 @@ type GetFollowListService struct {
 	ctx context.Context
 }
 
-func NewGetFollowListService(ctx context.Context) *GetFollowListService  {
+func NewGetFollowListService(ctx context.Context) *GetFollowListService {
 	return &GetFollowListService{ctx: ctx}
 }
 
@@ -41,4 +41,3 @@ func (s *GetFollowListService) GetFollowList(req *userproto.GetFollowListReq) ([
 
 	return userInfos, nil
 }
-
