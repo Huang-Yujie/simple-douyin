@@ -162,3 +162,8 @@ func CreateUser(ctx context.Context, username, encpassword string) error {
 	}
 	return nil
 }
+
+// 仅用来测试用
+func MGetLikeVideos(ctx context.Context, userId int64) ([]*Video, error) {
+	return nil, nil
+}
