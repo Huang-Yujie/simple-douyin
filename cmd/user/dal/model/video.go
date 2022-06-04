@@ -1,13 +1,13 @@
 package model
 
 type Video struct {
-	VideoID   uint `gorm:"primarykey"`
-	UserId    int64	`gorm:"not null;comment:发表视频用户ID"`
-	Title     string `gorm:"not null"`
-	PlayURL   string `gorm:"not null;comment:视频源"`
-	CoverURL  string `gorm:"not null;comment:视频封面"`
-	CreatedAt int
-	Comments  []Comment
+	VideoID    uint `gorm:"primarykey"`
+	UserID     uint
+	Title      string `gorm:"not null"`
+	OSSVideoID string `gorm:"not null"`
+	CreatedAt  int
+	Comments   []*Comment
+	Likes      []*User `gorm:"many2many:like;joinForeignKey:video_id;joinReferences:user_id;"`
 }
 
 func (v *Video) TableName() string {

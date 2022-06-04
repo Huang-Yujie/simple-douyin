@@ -22,15 +22,15 @@ type UserLoginResp struct {
 
 type UserQueryResp struct {
 	BaseResp
-	User *User `json:"user omitempty"`
+	User *User `json:"user,omitempty"`
 }
 
 type FollowListResp struct {
 	BaseResp
-	UserList []*User `json:"user_list"`
+	UserList []*User `json:"user_list,omitempty"`
 }
 
 type FanListResp struct {
 	BaseResp
-	UserList []*User `json:"user_list"`
+	UserList []*User `json:"user_list,omitempty"`
 }

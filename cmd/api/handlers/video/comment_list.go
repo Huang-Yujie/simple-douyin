@@ -19,8 +19,7 @@ func CommentList(c *gin.Context) {
 		return
 	}
 	req := &videoproto.GetCommentsReq{
-		AppUserId: appUserID,
-		VideoId:   param.VideoId,
+		VideoId: param.VideoId,
 	}
 	comments, err := rpc.GetComments(c, req)
 	if err != nil {

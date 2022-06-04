@@ -2,9 +2,12 @@ package service
 
 import (
 	"context"
+	"errors"
 	"simple-douyin/cmd/user/dal"
-	"simple-douyin/cmd/user/dal/model"
 	"simple-douyin/kitex_gen/userproto"
+	"simple-douyin/pkg/errno"
+
+	"gorm.io/gorm"
 )
 
 type GetUserService struct {
@@ -16,44 +19,43 @@ func NewGetUserService(ctx context.Context) *GetUserService {
 }
 
 func (s *GetUserService) GetUser(req *userproto.GetUserReq) (*userproto.UserInfo, error) {
-	appUerId := req.AppUserId
-	userId := req.UserId
-
-	return s.GetUserInfoByID(appUerId, userId, false)
+	return s.GetUserInfoByID(req.AppUserId, req.UserId)
 }
 
 //GetUserInfoByID  查询userId的信息 封装为UserInfo返回，appUerId主要用于判断当前用户是否关注了userId用户
-//queryFollow为true 说明查用当前用户的关注列表
-func (s *GetUserService) GetUserInfoByID(appUerId, userId int64, queryFollow bool) (*userproto.UserInfo, error) {
-	user, err := dal.GetUser(s.ctx, &model.User{UserID: userId})
+func (s *GetUserService) GetUserInfoByID(appUserId, userId int64) (*userproto.UserInfo, error) {
+	user, err := dal.GetUserByID(s.ctx, userId)
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) { // 如果没找到
+			return nil, errno.UserNotExistErr
+		}
 		return nil, err
 	}
-	u := user[0]
-	followCnt, err := dal.GetFollowCount(s.ctx, u.UserID)
+
+	followCnt, err := dal.GetFollowCount(s.ctx, int64(user.UserID))
 	if err != nil {
 		return nil, err
 	}
 
-	fanCnt, err := dal.GetFanCount(s.ctx, u.UserID)
+	fanCnt, err := dal.GetFanCount(s.ctx, int64(user.UserID))
 	if err != nil {
 		return nil, err
 	}
 
-	//如果不是查当前用户，而且不是查关注列表  就去查询是否关注
-	if appUerId != u.UserID && !queryFollow {
-		queryFollow, err = dal.IsFollow(s.ctx, appUerId, u.UserID)
+	isFollow := false  // 默认为false
+	if appUserId > 0 { // 如果已登录则查询
+		isFollow, err = dal.IsFollow(s.ctx, appUserId, int64(user.UserID))
 		if err != nil {
 			return nil, err
 		}
 	}
 
 	userInfo := &userproto.UserInfo{
-		UserId:        u.UserID,
-		Username:      u.UserName,
+		UserId:        int64(user.UserID),
+		Username:      user.Username,
 		FollowCount:   followCnt,
 		FollowerCount: fanCnt,
-		IsFollow:      queryFollow,
+		IsFollow:      isFollow,
 	}
 	return userInfo, nil
 }

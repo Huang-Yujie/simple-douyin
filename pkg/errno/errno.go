@@ -61,6 +61,9 @@ var (
 
 // ConvertErr convert error to ErrNo
 func ConvertErr(err error) ErrNo {
+	if err == nil {
+		return Success
+	}
 	Err := ErrNo{}
 	if errors.As(err, &Err) {
 		return Err
@@ -72,16 +75,17 @@ func ConvertErr(err error) ErrNo {
 }
 
 func (e ErrNo) StatusCode() int {
-	switch e.ErrCode {
-	case SuccessCode:
-		return http.StatusOK
-	case ServiceErrCode:
-		return http.StatusInternalServerError
-	case ParamErrCode:
-		return http.StatusBadRequest
-	case LoginErrCode, UserNotExistErrCode, UserAlreadyExistErrCode, UnauthorizedErrCode:
-		return http.StatusUnauthorized
-	default:
-		return http.StatusInternalServerError
-	}
+	// switch e.ErrCode {
+	// case SuccessCode:
+	// 	return http.StatusOK
+	// case ServiceErrCode:
+	// 	return http.StatusInternalServerError
+	// case ParamErrCode:
+	// 	return http.StatusBadRequest
+	// case LoginErrCode, UserNotExistErrCode, UserAlreadyExistErrCode, UnauthorizedErrCode:
+	// 	return http.StatusUnauthorized
+	// default:
+	// 	return http.StatusInternalServerError
+	// }
+	return http.StatusOK
 }

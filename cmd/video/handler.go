@@ -16,7 +16,7 @@ type VideoServiceImpl struct{}
 func (s *VideoServiceImpl) CreateVideo(ctx context.Context, req *videoproto.CreateVideoReq) (resp *videoproto.CreateVideoResp, err error) {
 	resp = new(videoproto.CreateVideoResp)
 
-	if req.VideoBaseInfo.UserId <= 0 || len(req.VideoBaseInfo.PlayAddr) == 0 || len(req.VideoBaseInfo.CoverAddr) == 0 || len(req.VideoBaseInfo.Title) == 0 {
+	if req.VideoBaseInfo.UserId <= 0 || len(req.VideoBaseInfo.OssVideoId) == 0 || len(req.VideoBaseInfo.Title) == 0 {
 		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
 		return resp, nil
 	}
@@ -156,7 +156,7 @@ func (s *VideoServiceImpl) DeleteComment(ctx context.Context, req *videoproto.De
 func (s *VideoServiceImpl) GetComments(ctx context.Context, req *videoproto.GetCommentsReq) (resp *videoproto.GetCommentsResp, err error) {
 	resp = new(videoproto.GetCommentsResp)
 
-	if req.AppUserId < 0 || req.VideoId < 0 {
+	if req.VideoId < 0 {
 		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
 		return resp, nil
 	}

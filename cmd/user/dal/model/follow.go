@@ -1,8 +1,8 @@
 package model
 
 type Follow struct {
-	UserId uint `gorm:"column:user_user_id"`
-	FanId  uint `gorm:"column:fan_user_id"`
+	UserID uint `gorm:"column:user_id"`
+	FanID  uint `gorm:"column:fan_id"`
 }
 
 func (f *Follow) TableName() string {

@@ -3,12 +3,14 @@ package service
 import (
 	"context"
 	"crypto/md5"
+	"errors"
 	"fmt"
 	"io"
 	"simple-douyin/cmd/user/dal"
-	"simple-douyin/cmd/user/dal/model"
 	"simple-douyin/kitex_gen/userproto"
 	"simple-douyin/pkg/errno"
+
+	"gorm.io/gorm"
 )
 
 type CheckUserService struct {
@@ -25,18 +27,15 @@ func (s *CheckUserService) CheckUser(req *userproto.CheckUserReq) (int64, error)
 		return 0, err
 	}
 	passWord := fmt.Sprintf("%x", h.Sum(nil))
-
-	userName := req.UserAccount.Username
-	users, err := dal.GetUser(s.ctx, &model.User{UserName: userName})
+	user, err := dal.GetUserByName(s.ctx, req.UserAccount.Username)
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) { // 如果没找到
+			return 0, errno.UserNotExistErr
+		}
 		return 0, err
 	}
-	if len(users) == 0 {
-		return 0, errno.UserNotExistErr
-	}
-	u := users[0]
-	if u.EncryptedPassword != passWord {
+	if user.EncryptedPassword != passWord {
 		return 0, errno.LoginErr
 	}
-	return u.UserID, nil
+	return int64(user.UserID), nil
 }

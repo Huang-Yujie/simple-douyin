@@ -16,21 +16,24 @@ func NewGetFanListService(ctx context.Context) *GetFanListService {
 
 func (s *GetFanListService) GetFanList(req *userproto.GetFanListReq) ([]*userproto.UserInfo, error) {
 	appUserId := req.AppUserId
-	//userId := req.UserId
+	userId := req.UserId
 
-	//查看当前用户的粉丝列表ids
-	uids, err := dal.MGetFan(s.ctx, appUserId)
+	//查看当前用户的粉丝列表uids
+	uids, err := dal.MGetFanUser(s.ctx, userId)
 	if err != nil {
 		return nil, err
 	}
-	userInfos := make([]*userproto.UserInfo, 0)
+	if len(uids) == 0 {
+		return nil, nil
+	}
+	userInfos := make([]*userproto.UserInfo, len(uids))
 
-	for _, uid := range uids {
-		uI, err := NewGetUserService(s.ctx).GetUserInfoByID(appUserId, uid, false)
+	for i, uid := range uids {
+		userInfo, err := NewGetUserService(s.ctx).GetUserInfoByID(appUserId, uid)
 		if err != nil {
 			return nil, err
 		}
-		userInfos = append(userInfos, uI)
+		userInfos[i] = userInfo
 	}
 
 	return userInfos, nil

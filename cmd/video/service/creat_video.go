@@ -20,16 +20,14 @@ func NewCreateVideoService(ctx context.Context) *CreateVideoService {
 // type Video struct {
 // 	UserID   int64  `json:"user_id"`
 // 	Title    string `json:"title"`
-// 	PlayAddr string `json:"play_addr"`
-// 	CoverUrl string `json:"cover_url"`
+// 	OSSVideoID string `json:"oss_video_id"`
 // }
 
 func (s *CreateVideoService) CreateVideo(req *videoproto.CreateVideoReq) error {
 	video := &model.Video{
-		UserId:   uint(req.VideoBaseInfo.UserId),
-		Title:    req.VideoBaseInfo.Title,
-		PlayURL:  req.VideoBaseInfo.PlayAddr,
-		CoverURL: req.VideoBaseInfo.CoverAddr,
+		UserID:     uint(req.VideoBaseInfo.UserId),
+		Title:      req.VideoBaseInfo.Title,
+		OSSVideoID: req.VideoBaseInfo.OssVideoId,
 	}
 	// 如果添加失败，返回error
 	return dal.CreateVideo(s.ctx, video)

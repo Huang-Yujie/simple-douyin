@@ -1,6 +1,8 @@
 package config
 
 import (
+	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/cloudwego/kitex/pkg/klog"
@@ -9,7 +11,14 @@ import (
 
 func Init() {
 	vp := viper.New()
-	vp.AddConfigPath(".")
+	workDirectory, err := os.Getwd()
+	if err != nil {
+		klog.Fatal(err)
+	}
+	for workDirectory != "/" {
+		vp.AddConfigPath(workDirectory)
+		workDirectory = filepath.Dir(workDirectory)
+	}
 	vp.SetConfigName("config")
 	vp.SetConfigType("yaml")
 	if err := vp.ReadInConfig(); err != nil {

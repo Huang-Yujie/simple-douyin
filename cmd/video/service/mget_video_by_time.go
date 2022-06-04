@@ -23,13 +23,11 @@ func (s *MGetVideoByTimeService) MGetVideoByTime(req *videoproto.GetVideosByTime
 	if err != nil {
 		return nil, 0, err
 	}
-
 	videos := pack.Videos(videoModels) // 类型转换：视频id、base_info已经得到，还需要点赞数、评论数、是否点赞
-
+	appUserID := req.AppUserId
 	// 把视频的其他信息进行绑定
 	for i := 0; i < len(videos); i++ {
 		vid := videos[i].VideoId
-		uid := videos[i].VideoBaseInfo.UserId
 		likeCount, err := dal.GetLikeCount(s.ctx, vid)
 		if err != nil {
 			return nil, 0, err
@@ -41,12 +39,12 @@ func (s *MGetVideoByTimeService) MGetVideoByTime(req *videoproto.GetVideosByTime
 			return nil, 0, err
 		}
 		videos[i].CommentCount = commentCount
-		if req.AppUserId != -1 { // 判断是否进行了登陆
-			isFavaorite, err := dal.IsFavorite(s.ctx, vid, uid)
+		if appUserID > 0 { // 判断是否进行了登陆
+			isFavorite, err := dal.IsFavorite(s.ctx, vid, appUserID)
 			if err != nil {
 				return nil, 0, err
 			}
-			videos[i].IsFavorite = isFavaorite
+			videos[i].IsFavorite = isFavorite
 		} else { // 如果没有登陆，则点赞直接返回false
 			videos[i].IsFavorite = false
 		}

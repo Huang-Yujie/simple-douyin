@@ -35,15 +35,20 @@ func Upload(c *gin.Context) {
 	ossVideoID, err := oss.Upload(ossUploadReq)
 	if err != nil {
 		respond.Error(c, err)
+		return
 	}
 	req := &videoproto.CreateVideoReq{
 		VideoBaseInfo: &videoproto.VideoBaseInfo{
-			UserId:   appUserID,
-			PlayAddr: ossVideoID,
-			Title:    param.Title,
+			UserId:     appUserID,
+			OssVideoId: ossVideoID,
+			Title:      param.Title,
 		},
 	}
 	if err := rpc.CreateVideo(c, req); err != nil {
+		respond.Error(c, err)
+		return
+	}
+	if err := oss.Snapshot(ossVideoID); err != nil {
 		respond.Error(c, err)
 		return
 	}

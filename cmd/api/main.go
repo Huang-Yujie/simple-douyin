@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"simple-douyin/cmd/api/auth"
+	"simple-douyin/cmd/api/cache"
 	"simple-douyin/cmd/api/handlers"
 	"simple-douyin/cmd/api/rpc"
 	"simple-douyin/pkg/config"
@@ -17,6 +18,7 @@ import (
 func Init() {
 	config.Init()
 	tracer.InitJaeger(constants.ApiServiceName)
+	cache.Init()
 	rpc.Init()
 	oss.InitVodClient()
 	auth.Init()

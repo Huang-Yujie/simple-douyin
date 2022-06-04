@@ -20,11 +20,13 @@ import (
 )
 
 func Init() {
+	config.Init()
 	tracer2.InitJaeger(constants.VideoServiceName)
 	dal.Init()
 }
 
 func main() {
+	Init()
 	r, err := etcd.NewEtcdRegistry([]string{config.Server.EtcdAddress}) // r should not be reused.
 	if err != nil {
 		panic(err)
@@ -33,7 +35,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	Init()
 	svr := userproto.NewServer(new(UserServiceImpl),
 		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: constants.UserServiceName}), // server name
 		server.WithMiddleware(middleware.CommonMiddleware),                                             // middleWare

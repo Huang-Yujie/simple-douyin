@@ -36,7 +36,7 @@ func (s *UserServiceImpl) GetUser(ctx context.Context, req *userproto.GetUserReq
 	// TODO: Your code here...
 	resp = new(userproto.GetUserResp)
 
-	if req.UserId < 0 || req.AppUserId < 0 {
+	if req.UserId < 0 {
 		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
 		return resp, nil
 	}

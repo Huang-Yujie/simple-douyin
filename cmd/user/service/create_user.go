@@ -3,13 +3,15 @@ package service
 import (
 	"context"
 	"crypto/md5"
+	"errors"
 	"fmt"
 	"io"
 	"simple-douyin/cmd/user/dal"
-	"simple-douyin/cmd/user/dal/model"
 	"simple-douyin/pkg/errno"
 
 	"simple-douyin/kitex_gen/userproto"
+
+	"gorm.io/gorm"
 )
 
 type CreateUserService struct {
@@ -23,20 +25,17 @@ func NewCreateUserService(ctx context.Context) *CreateUserService {
 
 // CreateUser create user info.
 func (s *CreateUserService) CreateUser(req *userproto.CreateUserReq) (int64, error) {
-	user, err := dal.QueryUser(s.ctx, &model.User{UserName: req.UserAccount.Username})
-	if err != nil {
-		return -1, err
+	_, err := dal.GetUserByName(s.ctx, req.UserAccount.Username)
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
+		if err == nil { // 找到了
+			return 0, errno.UserAlreadyExistErr
+		}
+		return 0, err // 其他错误
 	}
-	if len(user) != 0 {
-		return -1, errno.UserAlreadyExistErr
-	}
-
 	h := md5.New()
 	if _, err := io.WriteString(h, req.UserAccount.Password); err != nil {
-		return -1, err
+		return 0, err
 	}
 	passWord := fmt.Sprintf("%x", h.Sum(nil))
-	moudelUser := &model.User{UserName: req.UserAccount.Username, EncryptedPassword: passWord}
-	return dal.CreateUser(s.ctx, moudelUser)
-
+	return dal.CreateUser(s.ctx, req.UserAccount.Username, passWord)
 }

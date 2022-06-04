@@ -19,22 +19,27 @@ func PackUser(u *userproto.UserInfo) *User {
 func PackUsers(us []*userproto.UserInfo) []*User {
 	n := len(us)
 	users := make([]*User, n)
-	for i := 0; i < n; i++ {
-		users[i] = PackUser(us[i])
+	for i, u := range us {
+		users[i] = PackUser(u)
 	}
 	return users
 }
 
 func PackVideo(v *videoproto.VideoInfo, author *userproto.UserInfo) (*Video, error) {
-	playURL, err := cache.GetPlayURL(v.VideoBaseInfo.PlayAddr)
+	playURL, err := cache.GetPlayURL(v.VideoBaseInfo.OssVideoId)
 	if err != nil {
 		return nil, err
 	}
+	// coverURL, err := cache.GetCoverURL(v.VideoBaseInfo.OssVideoId)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	coverURL := "https://tva1.sinaimg.cn/large/e6c9d24ely1h2wrrikp8uj20tc1io422.jpg"
 	return &Video{
 		ID:           v.VideoId,
 		Author:       PackUser(author),
-		PlayAddr:     v.VideoBaseInfo.PlayAddr,
-		CoverAddr:    playURL,
+		PlayAddr:     playURL,
+		CoverAddr:    coverURL,
 		LikeCount:    v.LikeCount,
 		CommentCount: v.CommentCount,
 		IsFavorite:   v.IsFavorite,
@@ -43,11 +48,10 @@ func PackVideo(v *videoproto.VideoInfo, author *userproto.UserInfo) (*Video, err
 }
 
 func PackVideos(vs []*videoproto.VideoInfo, authors []*userproto.UserInfo) ([]*Video, error) {
-	n := len(vs)
-	videos := make([]*Video, n)
-	for i := 0; i < n; i++ {
+	videos := make([]*Video, len(vs))
+	for i, v := range vs {
 		var err error
-		videos[i], err = PackVideo(vs[i], authors[i])
+		videos[i], err = PackVideo(v, authors[i])
 		if err != nil {
 			return nil, err
 		}
@@ -64,11 +68,10 @@ func PackComment(c *videoproto.CommentInfo, author *userproto.UserInfo) *Comment
 	}
 }
 
-func PackComments(vs []*videoproto.CommentInfo, authors []*userproto.UserInfo) []*Comment {
-	n := len(vs)
-	comments := make([]*Comment, n)
-	for i := 0; i < n; i++ {
-		comments[i] = PackComment(vs[i], authors[i])
+func PackComments(cs []*videoproto.CommentInfo, authors []*userproto.UserInfo) []*Comment {
+	comments := make([]*Comment, len(cs))
+	for i, c := range cs {
+		comments[i] = PackComment(c, authors[i])
 	}
 	return comments
 }

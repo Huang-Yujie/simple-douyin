@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"simple-douyin/cmd/video/dal"
+	"simple-douyin/cmd/video/pack"
 	"simple-douyin/kitex_gen/videoproto"
 )
 
@@ -18,5 +19,9 @@ func NewCreateCommentService(ctx context.Context) *CreateCommentService {
 func (s *CreateCommentService) CreateComment(req *videoproto.CreateCommentReq) (*videoproto.CommentInfo, error) {
 
 	// 新增评论，需要DAO层返回评论详情
-	return dal.CreateComment(s.ctx, req.UserId, req.VideoId, req.Content)
+	comment, err := dal.CreateComment(s.ctx, req.UserId, req.VideoId, req.Content)
+	if err != nil {
+		return nil, err
+	}
+	return pack.Comment(comment), nil
 }

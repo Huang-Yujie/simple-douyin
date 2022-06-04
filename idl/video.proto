@@ -21,9 +21,8 @@ message BaseResp {
 
 message VideoBaseInfo {
     int64 user_id = 1;
-    string play_addr = 2;
-    string cover_addr = 3;
-    string title = 4;
+    string oss_video_id = 2;
+    string title = 3;
 }
 
 message VideoInfo {
@@ -119,8 +118,7 @@ message DeleteCommentResp {
 }
 
 message GetCommentsReq {
-    int64 app_user_id = 1;
-    int64 video_id = 2;
+    int64 video_id = 1;
 }
 
 message GetCommentsResp {

@@ -11,7 +11,7 @@ import (
 
 func InitVodClient() {
 	// 点播服务接入区域
-	regionId := "cn-beijing"
+	regionId := "cn-shanghai"
 	// 创建授权对象
 	credential := &credentials.AccessKeyCredential{
 		AccessKeyId:     config.OSS.KeyID,

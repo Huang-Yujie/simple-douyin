@@ -9,7 +9,7 @@ import (
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 )
 
-func InitOssClient(uploadAuthDTO UploadAuthDTO, uploadAddressDTO UploadAddressDTO) (*oss.Client, error) {
+func initOssClient(uploadAuthDTO UploadAuthDTO, uploadAddressDTO UploadAddressDTO) (*oss.Client, error) {
 	client, err := oss.New(uploadAddressDTO.Endpoint,
 		uploadAuthDTO.AccessKeyId,
 		uploadAuthDTO.AccessKeySecret,
@@ -18,7 +18,7 @@ func InitOssClient(uploadAuthDTO UploadAuthDTO, uploadAddressDTO UploadAddressDT
 	return client, err
 }
 
-func UploadLocalFile(client *oss.Client, uploadAddressDTO UploadAddressDTO, localFile io.Reader) error {
+func uploadLocalFile(client *oss.Client, uploadAddressDTO UploadAddressDTO, localFile io.Reader) error {
 	// 获取存储空间。
 	bucket, err := client.Bucket(uploadAddressDTO.Bucket)
 	if err != nil {
@@ -67,13 +67,29 @@ func Upload(v *Video) (string, error) {
 	json.Unmarshal(uploadAuthDecode, &uploadAuthDTO)
 	json.Unmarshal(uploadAddressDecode, &uploadAddressDTO)
 	// 使用UploadAuth和UploadAddress初始化OSS客户端
-	ossClient, err := InitOssClient(uploadAuthDTO, uploadAddressDTO)
+	ossClient, err := initOssClient(uploadAuthDTO, uploadAddressDTO)
 	if err != nil {
 		return "", err
 	}
 	// 上传文件，注意是同步上传会阻塞等待，耗时与文件大小和网络上行带宽有关
-	if err := UploadLocalFile(ossClient, uploadAddressDTO, v.File); err != nil {
+	if err := uploadLocalFile(ossClient, uploadAddressDTO, v.File); err != nil {
 		return "", err
 	}
 	return response.VideoId, nil
+}
+
+func Snapshot(videoId string) error {
+	request := vod.CreateSubmitSnapshotJobRequest()
+
+	// 需要截图的视频ID
+	request.VideoId = videoId
+
+	// 如果设置了截图模板ID，则会忽略以下参数
+	request.Count = "1"
+	request.SpecifiedOffsetTime = "0"
+
+	request.AcceptFormat = "JSON"
+
+	_, err := vodClient.SubmitSnapshotJob(request)
+	return err
 }

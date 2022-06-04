@@ -13,20 +13,19 @@ func Video(m *model.Video) *videoproto.VideoInfo {
 
 	return &videoproto.VideoInfo{
 		VideoBaseInfo: &videoproto.VideoBaseInfo{
-			UserId:    int64(m.UserId),
-			PlayAddr:  m.PlayURL,
-			CoverAddr: m.CoverURL,
-			Title:     m.Title,
+			UserId:     int64(m.UserID),
+			OssVideoId: m.OSSVideoID,
+			Title:      m.Title,
 		},
 		VideoId: int64(m.VideoID),
 	}
 }
 
 func Videos(ms []*model.Video) []*videoproto.VideoInfo {
-	videos := make([]*videoproto.VideoInfo, 0)
-	for _, m := range ms {
+	videos := make([]*videoproto.VideoInfo, len(ms))
+	for i, m := range ms {
 		if n := Video(m); n != nil {
-			videos = append(videos, n)
+			videos[i] = n
 		}
 	}
 	return videos

@@ -55,7 +55,8 @@ func GetUserID(c *gin.Context) (int64, error) {
 	if err != nil {
 		return 0, errno.UnauthorizedErr.WithMessage(err.Error())
 	}
-	userID, ok := claims[constants.IdentityKey].(int64)
+	tempUserID, ok := claims[constants.IdentityKey].(float64)
+	userID := int64(tempUserID)
 	if !ok || userID <= 0 {
 		return 0, errno.UnauthorizedErr.WithMessage("jwt user_id error")
 	}

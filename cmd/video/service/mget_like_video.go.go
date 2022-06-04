@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 
 	"simple-douyin/cmd/video/dal"
 	"simple-douyin/cmd/video/pack"
@@ -24,7 +25,7 @@ func (s *MGetLikeVideoService) MGetLikeVideo(req *videoproto.GetLikeVideosReq) (
 	if err != nil {
 		return nil, err
 	}
-
+	fmt.Println(videoModels)
 	videos := pack.Videos(videoModels) // 做类型转换：视频id、base_info已经得到，还需要点赞数、评论数、是否点赞
 
 	// 把视频的其他信息进行绑定

@@ -21,25 +21,25 @@ type Comment struct {
 type VideoFeedResp struct {
 	BaseResp
 	NextTime  int64    `json:"next_time"`
-	VideoList []*Video `json:"video_list"`
+	VideoList []*Video `json:"video_list,omitempty"`
 }
 
 type LikeListResp struct {
 	BaseResp
-	VideoList []*Video `json:"video_list"`
+	VideoList []*Video `json:"video_list,omitempty"`
 }
 
 type CreateCommentResp struct {
 	BaseResp
-	Comment *Comment `json:"comment"`
+	Comment *Comment `json:"comment,omitempty"`
 }
 
 type CommentListResp struct {
 	BaseResp
-	CommentList []*Comment `json:"comment"`
+	CommentList []*Comment `json:"comment,omitempty"`
 }
 
 type VideoListResp struct {
 	BaseResp
-	VideoList []*Video `json:"video_list"`
+	VideoList []*Video `json:"video_list,omitempty"`
 }

@@ -19,7 +19,7 @@ func NewMGetVideoByUserIdService(ctx context.Context) *MGetVideoByUserIdService 
 
 // 从DAO层获取视频基本信息，并查出点赞数、评论数、当前用户是否点赞，组装后返回
 func (s *MGetVideoByUserIdService) MGetVideo(req *videoproto.GetVideosByUserIdReq) ([]*videoproto.VideoInfo, error) {
-	videoModels, err := dal.MGetVideoByUserId(s.ctx, req.UserId)
+	videoModels, err := dal.MGetVideoByUserID(s.ctx, req.UserId)
 	// 只能得到视频id，uid，title，play_url,cover_url,created_time
 	if err != nil {
 		return nil, err
@@ -28,9 +28,9 @@ func (s *MGetVideoByUserIdService) MGetVideo(req *videoproto.GetVideosByUserIdRe
 	videos := pack.Videos(videoModels) // 做类型转换：视频id、base_info已经得到，还需要点赞数、评论数、是否点赞
 
 	// 把视频的其他信息进行绑定
+	appUserID := req.AppUserId
 	for i := 0; i < len(videos); i++ {
 		vid := videos[i].VideoId
-		uid := videos[i].VideoBaseInfo.UserId
 		likeCount, err := dal.GetLikeCount(s.ctx, vid)
 		if err != nil {
 			return nil, err
@@ -43,11 +43,11 @@ func (s *MGetVideoByUserIdService) MGetVideo(req *videoproto.GetVideosByUserIdRe
 		}
 		videos[i].CommentCount = commentCount
 
-		isFavaorite, err := dal.IsFavorite(s.ctx, vid, uid)
+		isFavorite, err := dal.IsFavorite(s.ctx, vid, appUserID)
 		if err != nil {
 			return nil, err
 		}
-		videos[i].IsFavorite = isFavaorite
+		videos[i].IsFavorite = isFavorite
 	}
 	return videos, nil
 }

@@ -3,13 +3,14 @@ package dal
 import (
 	"context"
 	"fmt"
+	"simple-douyin/cmd/user/dal/model"
+	"simple-douyin/pkg/config"
+	"testing"
+
 	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	gormopentracing "gorm.io/plugin/opentracing"
-	"simple-douyin/cmd/user/dal/model"
-	"simple-douyin/pkg/config"
-	"testing"
 )
 
 func testInit() {
@@ -22,6 +23,7 @@ func testInit() {
 			SkipDefaultTransaction: true,
 		},
 	)
+	DB = DB.Debug()
 	if err != nil {
 		klog.Fatal(err)
 	}
@@ -35,7 +37,7 @@ func testInit() {
 
 func TestGetUserByID(t *testing.T) {
 	testInit()
-	userID := int64(1)
+	userID := int64(3)
 	user, err := GetUserByID(context.Background(), userID)
 	if err != nil {
 		panic(err)
@@ -45,20 +47,18 @@ func TestGetUserByID(t *testing.T) {
 
 func TestGetUserByName(t *testing.T) {
 	testInit()
-	userName := "nhk"
-	users, err := GetUserByName(context.Background(), userName)
+	userName := "wyz"
+	user, err := GetUserByName(context.Background(), userName)
 	if err != nil {
 		panic(err)
 	}
-	for _, u := range users {
-		fmt.Println(*u)
-	}
+	fmt.Println(*user)
 }
 
 func TestCreateUser(t *testing.T) {
 	testInit()
-	userName := "zrz"
-	encPassword := "zrz123"
+	userName := "nhk"
+	encPassword := "nhknhk"
 	userID, err := CreateUser(context.Background(), userName, encPassword)
 	if err != nil {
 		panic(err)
@@ -68,22 +68,22 @@ func TestCreateUser(t *testing.T) {
 
 func TestFollowUser(t *testing.T) {
 	testInit()
-	userID := int64(2)
-	fanID := int64(6)
+	userID := int64(3)
+	fanID := int64(2)
 
-	err := FollowUser(context.Background(), userID, fanID)
+	err := FollowUser(context.Background(), fanID, userID)
 	if err != nil {
-		panic(err)
+		panic(err.Error())
 	}
 }
 
 func TestUnFollowUser(t *testing.T) {
 	testInit()
 
-	userID := int64(1)
-	fanID := int64(6)
+	userID := int64(2)
+	fanID := int64(1)
 
-	err := UnFollowUser(context.Background(), userID, fanID)
+	err := UnFollowUser(context.Background(), fanID, userID)
 	if err != nil {
 		panic(err)
 	}
@@ -91,7 +91,7 @@ func TestUnFollowUser(t *testing.T) {
 
 func TestMGetFanUser(t *testing.T) {
 	testInit()
-	fanID := int64(6)
+	fanID := int64(1)
 	userIDs, err := MGetFanUser(context.Background(), fanID)
 	if err != nil {
 		panic(err)
@@ -101,7 +101,7 @@ func TestMGetFanUser(t *testing.T) {
 
 func TestMGetFollowUser(t *testing.T) {
 	testInit()
-	userID := int64(1)
+	userID := int64(2)
 	fanIDs, err := MGetFollowUser(context.Background(), userID)
 	if err != nil {
 		panic(err)
@@ -111,7 +111,7 @@ func TestMGetFollowUser(t *testing.T) {
 
 func TestGetFanCount(t *testing.T) {
 	testInit()
-	userID := int64(1)
+	userID := int64(2)
 
 	count, err := GetFanCount(context.Background(), userID)
 	if err != nil {
@@ -134,8 +134,8 @@ func TestGetFollowCount(t *testing.T) {
 func TestIsFollow(t *testing.T) {
 	testInit()
 
-	userID := int64(1)
-	fanID := int64(100)
+	userID := int64(2)
+	fanID := int64(1)
 
 	f, err := IsFollow(context.Background(), userID, fanID)
 	if err != nil {
@@ -143,4 +143,3 @@ func TestIsFollow(t *testing.T) {
 	}
 	fmt.Println(f)
 }
-

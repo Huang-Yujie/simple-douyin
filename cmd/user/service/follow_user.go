@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"simple-douyin/cmd/user/dal"
-	"simple-douyin/cmd/user/dal/model"
 	"simple-douyin/kitex_gen/userproto"
 )
 
@@ -20,14 +19,10 @@ func NewFollowUserService(ctx context.Context) *FollowUserService {
 
 //FollowUser Follow user by id
 func (s *FollowUserService) FollowUser(req *userproto.FollowUserReq) error {
-	userA := req.FanUserId
-	userB := req.FollowedUserId
-	return dal.Follow(s.ctx, &model.User{UserID: userA}, &model.User{UserID: userB})
+	return dal.FollowUser(s.ctx, int64(req.FanUserId), int64(req.FollowedUserId))
 }
 
 //UnFollowUser unFollow user by id
 func (s *FollowUserService) UnFollowUser(req *userproto.UnFollowUserReq) error {
-	userA := req.FanUserId
-	userB := req.FollowedUserId
-	return dal.UnFollow(s.ctx, &model.User{UserID: userA}, &model.User{UserID: userB})
+	return dal.UnFollowUser(s.ctx, int64(req.FanUserId), int64(req.FollowedUserId))
 }
