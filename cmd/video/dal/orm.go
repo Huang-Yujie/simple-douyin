@@ -76,7 +76,7 @@ func MGetVideoByTime(ctx context.Context, LatestTime int64, Count int64) ([]*mod
 
 // LikeVideo 点赞视频
 func LikeVideo(ctx context.Context, UserId int64, VideoId int64) error {
-	like := &model.Like{
+	like := model.Like{
 		UserId:  uint(UserId),
 		VideoId: uint(VideoId),
 	}
