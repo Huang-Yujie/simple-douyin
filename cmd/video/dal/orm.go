@@ -2,8 +2,11 @@ package dal
 
 import (
 	"context"
+	"errors"
+	"math"
 	"simple-douyin/cmd/video/dal/model"
-	"time"
+
+	"gorm.io/gorm"
 )
 
 // CreateVideo create video info
@@ -44,9 +47,16 @@ func MGetVideoByTime(ctx context.Context, latestTime int64, count int64) ([]*mod
 	if err := DB.WithContext(ctx).Where("created_at < ?", latestTime).Limit(int(count)).Order("created_at DESC").Find(&videos).Error; err != nil {
 		return nil, 0, err
 	}
-	nextTime := time.Now().Unix()
-	if len(videos) != 0 {
+	var nextTime int64
+	if len(videos) != 0 { // 查到了新视频
 		nextTime = int64(videos[0].CreatedAt)
+	} else { // 没查到
+		var video model.Video
+		if err := DB.WithContext(ctx).Last(&video).Error; errors.Is(err, gorm.ErrRecordNotFound) { // 一条视频都没有
+			nextTime = math.MaxInt32
+		} else {
+			nextTime = int64(video.CreatedAt)
+		}
 	}
 	return videos, nextTime, nil
 }

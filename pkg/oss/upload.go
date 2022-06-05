@@ -77,19 +77,3 @@ func Upload(v *Video) (string, error) {
 	}
 	return response.VideoId, nil
 }
-
-func Snapshot(videoId string) error {
-	request := vod.CreateSubmitSnapshotJobRequest()
-
-	// 需要截图的视频ID
-	request.VideoId = videoId
-
-	// 如果设置了截图模板ID，则会忽略以下参数
-	request.Count = "1"
-	request.SpecifiedOffsetTime = "0"
-
-	request.AcceptFormat = "JSON"
-
-	_, err := vodClient.SubmitSnapshotJob(request)
-	return err
-}

@@ -1,8 +1,8 @@
 package oss
 
 import (
+	"fmt"
 	"simple-douyin/pkg/config"
-	"strconv"
 
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/requests"
 	"github.com/aliyun/alibaba-cloud-sdk-go/services/vod"
@@ -22,13 +22,12 @@ func GetPlayURL(videoId string) (string, error) {
 }
 
 func GetCoverURL(videoId string) (string, error) {
-	request := vod.CreateListSnapshotsRequest()
+	request := vod.CreateGetVideoInfoRequest()
 	request.VideoId = videoId
-	request.SnapshotType = "CoverSnapshot"
-	request.AuthTimeout = strconv.Itoa(config.Server.Timeout)
-	response, err := vodClient.ListSnapshots(request)
+	response, err := vodClient.GetVideoInfo(request)
 	if err != nil {
 		return "", err
 	}
-	return response.MediaSnapshot.Snapshots.Snapshot[0].Url, nil
+	fmt.Println(response.Video)
+	return response.Video.CoverURL, nil
 }

@@ -36,7 +36,7 @@ type CreateCommentResp struct {
 
 type CommentListResp struct {
 	BaseResp
-	CommentList []*Comment `json:"comment,omitempty"`
+	CommentList []*Comment `json:"comment_list,omitempty"`
 }
 
 type VideoListResp struct {

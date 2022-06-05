@@ -30,11 +30,11 @@ func PackVideo(v *videoproto.VideoInfo, author *userproto.UserInfo) (*Video, err
 	if err != nil {
 		return nil, err
 	}
-	// coverURL, err := cache.GetCoverURL(v.VideoBaseInfo.OssVideoId)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	coverURL := "https://tva1.sinaimg.cn/large/e6c9d24ely1h2wrrikp8uj20tc1io422.jpg"
+	coverURL, err := cache.GetCoverURL(v.VideoBaseInfo.OssVideoId)
+	if err != nil {
+		return nil, err
+	}
+	// coverURL := "https://tva1.sinaimg.cn/large/e6c9d24ely1h2wrrikp8uj20tc1io422.jpg"
 	return &Video{
 		ID:           v.VideoId,
 		Author:       PackUser(author),

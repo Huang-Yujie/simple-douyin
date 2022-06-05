@@ -91,7 +91,7 @@ func GetFollowCount(ctx context.Context, fanID int64) (int64, error) {
 }
 
 //IsFollow 根据传入两个用户ID 在follow表中查询用户A是否关注用户B
-func IsFollow(ctx context.Context, userID, fanID int64) (bool, error) {
+func IsFollow(ctx context.Context, fanID, userID int64) (bool, error) {
 	user := model.User{UserID: uint(userID)}
 	return DB.WithContext(ctx).Model(&user).Where("fan_id = ?", fanID).Association("Fans").Count() > 0, nil
 }

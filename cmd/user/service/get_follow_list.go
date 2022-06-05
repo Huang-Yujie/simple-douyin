@@ -16,10 +16,10 @@ func NewGetFollowListService(ctx context.Context) *GetFollowListService {
 
 func (s *GetFollowListService) GetFollowList(req *userproto.GetFollowListReq) ([]*userproto.UserInfo, error) {
 	appUserId := req.AppUserId
-	//userId := req.UserId
+	userId := req.UserId
 
 	//查看当前用户的关注列表
-	uids, err := dal.MGetFollowUser(s.ctx, appUserId)
+	uids, err := dal.MGetFollowUser(s.ctx, userId)
 	if err != nil {
 		return nil, err
 	}
