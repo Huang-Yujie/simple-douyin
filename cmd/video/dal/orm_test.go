@@ -6,6 +6,7 @@ import (
 	"simple-douyin/cmd/video/dal/model"
 	"simple-douyin/pkg/config"
 	"testing"
+	"time"
 
 	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/driver/mysql"
@@ -38,7 +39,7 @@ func testInit() {
 func TestCreateVideo(t *testing.T) {
 	testInit()
 	video := &model.Video{
-		UserID:     uint(3),
+		UserID:     uint(1),
 		Title:      "6",
 		OSSVideoID: "6",
 	}
@@ -96,7 +97,7 @@ func TestIsFavorite(t *testing.T) {
 
 func TestMGetVideoByTime(t *testing.T) {
 	testInit()
-	lastTime := int64(1654363272)
+	lastTime := time.Now().Unix()
 	videos, nextTime, err := MGetVideoByTime(context.Background(), lastTime, 5)
 	if err != nil {
 		panic(err)

@@ -19,7 +19,7 @@ func Feed(c *gin.Context) {
 		appUserID = -1
 	}
 	param := new(forms.VideoFeedReq)
-	if err := c.ShouldBind(param); err != nil {
+	if c.ShouldBind(param); param.LatestTime <= 0 {
 		param.LatestTime = time.Now().Unix()
 	}
 	req := &videoproto.GetVideosByTimeReq{

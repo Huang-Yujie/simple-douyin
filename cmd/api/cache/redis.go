@@ -13,7 +13,7 @@ func Init() {
 		MaxIdle:   80,
 		MaxActive: 12000, // max number of connections
 		Dial: func() (redis.Conn, error) {
-			return redis.Dial("tcp", config.Server.RedisPort)
+			return redis.Dial("tcp", config.Server.RedisAddress)
 		},
 	}
 }

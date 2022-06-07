@@ -8,7 +8,7 @@ import (
 type ServerConfig struct {
 	RunMode          string
 	HttpPort         string
-	RedisPort        string
+	RedisAddress     string
 	UserServiceAddr  string
 	VideoServiceAddr string
 	Timeout          int

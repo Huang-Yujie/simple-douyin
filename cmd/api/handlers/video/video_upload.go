@@ -48,9 +48,5 @@ func Upload(c *gin.Context) {
 		respond.Error(c, err)
 		return
 	}
-	// if err := oss.Snapshot(ossVideoID); err != nil {
-	// 	respond.Error(c, err)
-	// 	return
-	// }
 	respond.OK(c)
 }

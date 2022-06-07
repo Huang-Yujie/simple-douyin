@@ -3,7 +3,7 @@ Server:
   HttpPort: :8080
   UserSeviceAddr: 127.0.0.1:8081
   VideoSeviceAddr: 127.0.0.1:8082
-  RedisPort: :6379
+  RedisAddr: 127.0.0.1:6388
   Timeout: 86400 #seconds
   EtcdAddress: 127.0.0.1:2379
   FeedCount: 5
